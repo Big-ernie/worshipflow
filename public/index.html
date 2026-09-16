@@ -15,10 +15,7 @@
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
-        <div>
-          <div class="brand-name">WorshipFlow</div>
-          <div class="brand-sub">Live atmosphere engine</div>
-        </div>
+        <div><div class="brand-name">WorshipFlow</div><div class="brand-sub">Live atmosphere engine</div></div>
       </div>
       <div class="topbar-actions">
         <div class="status-pill" id="audioStatus"><i></i><span>Audio idle</span></div>
@@ -30,24 +27,15 @@
 
     <main>
       <section class="hero-panel panel">
-        <div>
-          <p class="eyebrow">STAGE MODE</p>
-          <h1>Build the room before the first note.</h1>
-          <p class="lede">Pads, crowd, transitions and click, designed for gospel worship, prayer and spontaneous moments.</p>
-        </div>
-        <div class="hero-meter">
-          <div class="meter-ring" id="intensityRing"><strong id="intensityReadout">28</strong><span>INTENSITY</span></div>
-        </div>
+        <div><p class="eyebrow">STAGE MODE</p><h1>Build the room before the first note.</h1><p class="lede">Pads, crowd, transitions and click, designed for gospel worship, prayer and spontaneous moments.</p></div>
+        <div class="hero-meter"><div class="meter-ring" id="intensityRing"><strong id="intensityReadout">28</strong><span>INTENSITY</span></div></div>
       </section>
 
       <section class="stage-grid">
         <div class="panel key-panel">
           <div class="panel-heading">
             <div><p class="eyebrow">KEY</p><h2 id="currentKeyLabel">C Major</h2></div>
-            <div class="segmented" aria-label="Mode">
-              <button class="seg active" data-mode="major">Major</button>
-              <button class="seg" data-mode="minor">Minor</button>
-            </div>
+            <div class="segmented" aria-label="Mode"><button class="seg active" data-mode="major">Major</button><button class="seg" data-mode="minor">Minor</button></div>
           </div>
           <div class="keys" id="keysGrid"></div>
           <div class="keyboard-hint">Keyboard: A W S E D F T G Y H U J</div>
@@ -63,6 +51,20 @@
           </div>
         </div>
 
+        <div class="panel library-panel full-span">
+          <div class="panel-heading">
+            <div><p class="eyebrow">PAD LIBRARY</p><h2>Use your own worship pads</h2></div>
+            <div class="inline-actions"><button class="btn ghost" id="newPackBtn">New pack</button><button class="btn ghost" id="cloudSyncBtn">Sync cloud</button></div>
+          </div>
+          <div class="library-toolbar">
+            <label>Active pack<select id="packSelect"></select></label>
+            <label>Crossfade <span id="crossfadeOut">2.5s</span><input id="crossfade" type="range" min="0.5" max="10" step="0.5" value="2.5"></label>
+            <div class="library-status" id="libraryStatus">Synth fallback active</div>
+          </div>
+          <p class="library-help">Preferred: stereo WAV, 24-bit, 44.1 or 48 kHz. Upload seamless loops for each key. Audio is saved locally in IndexedDB and remains available offline.</p>
+          <div class="pad-slots" id="padSlots"></div>
+        </div>
+
         <div class="panel moments-panel full-span">
           <div class="panel-heading"><div><p class="eyebrow">WORSHIP MOMENTS</p><h2>One tap, whole-room movement</h2></div><span class="hint">Press 1 to 6</span></div>
           <div class="moments" id="momentsGrid"></div>
@@ -72,10 +74,7 @@
           <div class="panel-heading"><div><p class="eyebrow">ENERGY</p><h2>Intensity</h2></div><strong id="intensityPct">28%</strong></div>
           <input class="big-range" id="intensity" type="range" min="0" max="100" value="28" />
           <div class="scale"><span>Still</span><span>Lift</span><span>Full</span></div>
-          <div class="toggles">
-            <label><input type="checkbox" id="autoCrowd" checked><span>Adaptive crowd</span></label>
-            <label><input type="checkbox" id="autoFilter" checked><span>Adaptive pad tone</span></label>
-          </div>
+          <div class="toggles"><label><input type="checkbox" id="autoCrowd" checked><span>Adaptive crowd</span></label><label><input type="checkbox" id="autoFilter" checked><span>Adaptive pad tone</span></label></div>
         </div>
 
         <div class="panel fx-panel">
@@ -90,65 +89,37 @@
 
         <div class="panel click-panel">
           <div class="panel-heading"><div><p class="eyebrow">CLICK</p><h2>Tempo</h2></div><button class="toggle-button" id="clickToggle">OFF</button></div>
-          <div class="tempo-row">
-            <button class="square-btn" id="bpmMinus">−</button>
-            <div class="bpm"><input id="bpm" type="number" min="35" max="220" value="72"><span>BPM</span></div>
-            <button class="square-btn" id="bpmPlus">+</button>
-          </div>
+          <div class="tempo-row"><button class="square-btn" id="bpmMinus">−</button><div class="bpm"><input id="bpm" type="number" min="35" max="220" value="72"><span>BPM</span></div><button class="square-btn" id="bpmPlus">+</button></div>
           <button class="btn wide ghost" id="tapTempo">Tap tempo</button>
         </div>
 
         <div class="panel presets-panel full-span">
-          <div class="panel-heading">
-            <div><p class="eyebrow">SERVICE FLOW</p><h2>Presets & setlist</h2></div>
-            <div class="inline-actions"><button class="btn ghost" id="savePresetBtn">Save preset</button><button class="btn primary" id="addSetItemBtn">Add current moment</button></div>
-          </div>
+          <div class="panel-heading"><div><p class="eyebrow">SERVICE FLOW</p><h2>Presets & setlist</h2></div><div class="inline-actions"><button class="btn ghost" id="savePresetBtn">Save preset</button><button class="btn primary" id="addSetItemBtn">Add current moment</button></div></div>
           <div class="service-grid">
-            <div>
-              <div class="section-title">Quick presets</div>
-              <div id="presetsList" class="preset-list empty-state">No presets yet.</div>
-            </div>
-            <div>
-              <div class="section-title"><span>Sunday set</span><span id="setCount">0 items</span></div>
-              <div id="setlist" class="setlist empty-state">Add moments to build your service flow.</div>
-            </div>
+            <div><div class="section-title">Quick presets</div><div id="presetsList" class="preset-list empty-state">No presets yet.</div></div>
+            <div><div class="section-title"><span>Sunday set</span><span id="setCount">0 items</span></div><div id="setlist" class="setlist empty-state">Add moments to build your service flow.</div></div>
           </div>
         </div>
       </section>
 
-      <section class="footer-note">
-        <div><strong>Offline ready.</strong> Static app assets cache after first load. Saved local presets still work without a connection.</div>
-        <div class="shortcut-note">Space: click · Esc: stop · 1 to 6: moments</div>
-      </section>
+      <section class="footer-note"><div><strong>Offline ready.</strong> Imported pad audio is stored on this device. Cloud sync is optional.</div><div class="shortcut-note">Space: click · Esc: stop · 1 to 6: moments</div></section>
     </main>
   </div>
 
   <dialog id="accountDialog" class="modal">
     <form method="dialog" class="modal-card" id="authForm">
       <button class="modal-close" value="cancel" aria-label="Close">×</button>
-      <p class="eyebrow">WORSHIPFLOW CLOUD</p>
-      <h2 id="authTitle">Sign in</h2>
-      <p class="modal-copy" id="authCopy">Sync presets and setlists across your devices.</p>
-      <div class="form-grid">
-        <label id="nameField" class="hidden">Name<input id="authName" autocomplete="name"></label>
-        <label>Email<input id="authEmail" type="email" autocomplete="email" required></label>
-        <label>Password<input id="authPassword" type="password" autocomplete="current-password" minlength="8" required></label>
-      </div>
-      <div id="authError" class="form-error"></div>
-      <button class="btn primary wide" id="authSubmit" value="default">Sign in</button>
-      <button class="text-btn" type="button" id="authSwitch">Need an account? Create one</button>
+      <p class="eyebrow">WORSHIPFLOW CLOUD</p><h2 id="authTitle">Sign in</h2><p class="modal-copy" id="authCopy">Sync pad libraries, presets and setlists across devices.</p>
+      <div class="form-grid"><label id="nameField" class="hidden">Name<input id="authName" autocomplete="name"></label><label>Email<input id="authEmail" type="email" autocomplete="email" required></label><label>Password<input id="authPassword" type="password" autocomplete="current-password" minlength="8" required></label></div>
+      <div id="authError" class="form-error"></div><button class="btn primary wide" id="authSubmit" value="default">Sign in</button><button class="text-btn" type="button" id="authSwitch">Need an account? Create one</button>
     </form>
   </dialog>
 
   <dialog id="nameDialog" class="modal small-modal">
-    <form method="dialog" class="modal-card" id="nameForm">
-      <button class="modal-close" value="cancel" aria-label="Close">×</button>
-      <p class="eyebrow">SAVE</p><h2 id="nameDialogTitle">Save preset</h2>
-      <label>Name<input id="nameInput" maxlength="80" required placeholder="Prayer atmosphere"></label>
-      <div class="modal-actions"><button class="btn ghost" value="cancel">Cancel</button><button class="btn primary" id="nameDialogSave" value="default">Save</button></div>
-    </form>
+    <form method="dialog" class="modal-card" id="nameForm"><button class="modal-close" value="cancel" aria-label="Close">×</button><p class="eyebrow">SAVE</p><h2 id="nameDialogTitle">Save preset</h2><label>Name<input id="nameInput" maxlength="80" required placeholder="Prayer atmosphere"></label><div class="modal-actions"><button class="btn ghost" value="cancel">Cancel</button><button class="btn primary" id="nameDialogSave" value="default">Save</button></div></form>
   </dialog>
 
+  <input id="padFileInput" type="file" accept="audio/wav,audio/x-wav,audio/mpeg,audio/mp4,audio/aiff,audio/x-aiff" hidden>
   <div class="toast" id="toast" role="status"></div>
   <script src="/app.js" type="module"></script>
 </body>
