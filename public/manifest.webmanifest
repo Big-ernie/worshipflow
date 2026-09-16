@@ -1,0 +1,9 @@
+{
+  "name": "WorshipFlow",
+  "short_name": "WorshipFlow",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090b10",
+  "theme_color": "#090b10",
+  "description": "Live worship pads, crowd ambience, transitions, click and setlists."
+}
