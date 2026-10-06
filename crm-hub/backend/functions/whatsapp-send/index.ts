@@ -12,8 +12,6 @@ function allowedOrigin(req:Request){
   return "https://big-ernie-crm-hub.vercel.app";
 }
 function responseHeaders(req:Request){return {"access-control-allow-origin":allowedOrigin(req),"vary":"Origin","access-control-allow-headers":"authorization, x-client-info, apikey, content-type","access-control-allow-methods":"POST, OPTIONS","content-type":"application/json; charset=utf-8"}}
-let activeReq:Request;
-const out=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:responseHeaders(activeReq)});
 const rank:{[k:string]:number}={none:0,view:1,edit:2,admin:3};
 
 async function tokenFor(connectionId:string){
@@ -64,7 +62,7 @@ async function insideReplyWindow(org:string,conversation:string){
 }
 
 Deno.serve(async(req)=>{
-  activeReq=req;
+  const out=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:responseHeaders(req)});
   if(req.method==="OPTIONS") return new Response("ok",{headers:responseHeaders(req)});
   if(req.method!=="POST") return out({error:"Method not allowed"},405);
   try{
