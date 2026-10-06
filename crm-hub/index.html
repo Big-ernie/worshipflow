@@ -77,6 +77,7 @@ sb.auth.onAuthStateChange((e,s)=>setTimeout(async()=>{await session(s);if(e==="P
 async function session(s){if(!s){$("auth").classList.remove("hidden");$("app").classList.add("hidden");$("onboard").classList.add("hidden");return}S.user=s.user;const p=await sb.from("profiles").select("*").eq("id",S.user.id).single();if(p.error)return toast(p.error.message,true);S.profile=p.data;const token=new URLSearchParams(location.search).get("invite");if(token){const x=await sb.functions.invoke("workspace-actions",{body:{action:"accept_invite",token}});if(!x.error&&!x.data?.error)history.replaceState({},document.title,location.pathname)}await memberships()}
 async function memberships(){const r=await sb.from("workspace_memberships").select("*,organizations(*)").eq("user_id",S.user.id).eq("active",true);if(r.error)return toast(r.error.message,true);S.memberships=r.data||[];S.orgs=S.memberships.map(m=>m.organizations).filter(Boolean);if(!S.orgs.length){$("auth").classList.add("hidden");$("app").classList.add("hidden");$("onboard").classList.remove("hidden");const t=new URLSearchParams(location.search).get("invite");if(t)$("obToken").value=t;return}$("auth").classList.add("hidden");$("onboard").classList.add("hidden");$("app").classList.remove("hidden");$("workspaceSelect").innerHTML=S.orgs.map(o=>'<option value="'+o.id+'">'+esc(o.name)+'</option>').join("");await selectWs(S.orgs[0].id)}
 async function selectWs(id){S.org=S.orgs.find(o=>o.id===id);S.membership=S.memberships.find(m=>m.organization_id===id);$("workspaceSelect").value=id;$("sideOrg").textContent=S.org.name;$("sideRole").textContent=S.membership.role.toUpperCase();const [m,a]=await Promise.all([sb.from("modules").select("*").order("sort_order"),sb.from("member_module_access").select("*").eq("membership_id",S.membership.id)]);S.modules=m.data||[];S.access={};(a.data||[]).forEach(x=>S.access[x.module_key]=x.access_level);if(S.profile.is_platform_owner&&["internal","sandbox"].includes(S.org.workspace_type))S.modules.forEach(x=>S.access[x.key]="admin");buildNav();await load();switchView("dashboard")}
+function canOpen(v){return v==="dashboard"||(v==="activities"?true:(v==="reports"?(can("reports")||can("exports")):can(v)))}
 function buildNav(){
  const groups=[
   ["Work",[["dashboard","Home"],["whatsapp","Inbox"],["contacts","Customers"],["companies","Companies"]]],
@@ -85,8 +86,7 @@ function buildNav(){
   ["Manage",[["reports","Reports"],["activities","Activity"],["team","Team"],["settings","Settings"]]]
  ];
  let h="";
- const visible=(v)=>v==="dashboard"||(v==="activities"?true:(v==="reports"?(can("reports")||can("exports")):can(v)));
- groups.forEach(g=>{const items=g[1].filter(x=>visible(x[0]));if(items.length){h+='<div class="navGroup">'+g[0]+'</div>';items.forEach(x=>h+='<button data-v="'+x[0]+'">'+x[1]+'</button>')}});
+ groups.forEach(g=>{const items=g[1].filter(x=>canOpen(x[0]));if(items.length){h+='<div class="navGroup">'+g[0]+'</div>';items.forEach(x=>h+='<button data-v="'+x[0]+'">'+x[1]+'</button>')}});
  if(S.profile.is_platform_owner)h+='<div class="navGroup">Platform</div><button data-v="platform">Platform Hub</button>';
  $("nav").innerHTML=h;$("nav").querySelectorAll("button").forEach(b=>b.onclick=()=>{document.querySelector(".side").classList.remove("open");switchView(b.dataset.v)})
 }
@@ -147,6 +147,8 @@ function dashboardWidgetIds(){
  const clean=[];for(const id of base){if(allowed.has(id)&&!clean.includes(id))clean.push(id)}
  return clean.length?clean:[...DASH_PRESETS[dashboardPreset()]]
 }
+const DASH_WIDGET_MODULE={inbox:"whatsapp",pipeline:"deals",followups:"followups",appointments:"appointments",requests:"whatsapp",orders:"whatsapp",stock:"products_services"};
+function dashboardWidgetAllowed(id){const m=DASH_WIDGET_MODULE[id];return !m||canOpen(m)}
 function dashCard(title,body,wide=false,action="",actionView=""){
  return '<div class="card panel dashWidget '+(wide?"wide":"")+'"><div class="widgetHead"><h3>'+esc(title)+'</h3>'+(action?'<button class="widgetLink" onclick="window.goView(\''+actionView+'\')">'+esc(action)+'</button>':"")+'</div>'+body+'</div>'
 }
@@ -162,12 +164,10 @@ function renderDashboard(){
  const pendingBookings=S.appointments.filter(a=>["requested","pending"].includes(a.status));
  const upcoming=S.appointments.filter(a=>a.start_at&&new Date(a.start_at)>=new Date()&&!["cancelled","no_show"].includes(a.status)).sort((a,b)=>new Date(a.start_at)-new Date(b.start_at));
  const widgets={
-  attention:()=>dashCard("Needs attention",'<div class="attentionGrid">'+[
+  attention:()=>{const items=[
    [waiting.length,"Customer replies","whatsapp"],[due.length,"Overdue follow-ups","followups"],[req.filter(x=>["new","ready"].includes(x.status)).length,"Requests to progress","whatsapp"],[pendingBookings.length,"Bookings to confirm","appointments"]
-  ].map(x=>'<button class="attentionItem" onclick="window.goView(\''+x[2]+'\')"><b>'+x[0]+'</b><span>'+x[1]+'</span></button>').join("")+'</div>',true),
-  kpis:()=>dashCard("Business snapshot",'<div class="cards">'+[
-   ["Open opportunities",open.length],["Pipeline",(S.org.currency||"GHS")+" "+open.reduce((a,d)=>a+Number(d.amount||0),0).toLocaleString()],["Active requests",req.length],["Customers",S.contacts.length]
-  ].map(x=>'<div class="kpi"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>').join("")+'</div>',true),
+  ].filter(x=>canOpen(x[2]));return dashCard("Needs attention",items.length?'<div class="attentionGrid">'+items.map(x=>'<button class="attentionItem" onclick="window.goView(\''+x[2]+'\')"><b>'+x[0]+'</b><span>'+x[1]+'</span></button>').join("")+'</div>':'<p class="small muted">No action widgets are available for your role.</p>',true)},
+  kpis:()=>{const metrics=[];if(canOpen("deals"))metrics.push(["Open opportunities",open.length],["Pipeline",(S.org.currency||"GHS")+" "+open.reduce((a,d)=>a+Number(d.amount||0),0).toLocaleString()]);if(canOpen("whatsapp"))metrics.push(["Active requests",req.length]);if(canOpen("contacts"))metrics.push(["Customers",S.contacts.length]);if(canOpen("appointments")&&metrics.length<4)metrics.push(["Upcoming bookings",upcoming.length]);return dashCard("Business snapshot",metrics.length?'<div class="cards">'+metrics.slice(0,4).map(x=>'<div class="kpi"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>').join("")+'</div>':'<p class="small muted">No business metrics are available for your role.</p>',true)},
   inbox:()=>dashCard("Recent conversations",'<div class="miniList">'+S.conversations.slice(0,5).map(c=>'<div class="miniRow"><div class="miniRowMain"><b>'+esc(waContact(c))+'</b><span>'+esc(waPreview(c).slice(0,72))+'</span></div><span class="miniRowRight">'+esc(date(c.last_message_at))+'</span></div>').join("")+(S.conversations.length?"":'<p class="small muted">No conversations yet.</p>')+'</div>',false,"Open inbox","whatsapp"),
   pipeline:()=>{const fs=["New Enquiry","Requirements Confirmed","Quote Sent","Follow-up Due","Negotiation","Won"],cs=fs.map(st=>S.deals.filter(d=>d.stage===st).length),mx=Math.max(...cs,1);return dashCard("Sales pipeline",'<div class="funnel">'+fs.map((st,i)=>'<div class="frow"><span>'+esc(st)+'</span><div class="bar" style="width:'+Math.max(5,cs[i]/mx*100)+'%"></div><b>'+cs[i]+'</b></div>').join("")+'</div>',false,"View pipeline","deals")},
   followups:()=>dashCard("Follow-ups due",'<div class="miniList">'+due.slice(0,6).map(f=>'<div class="miniRow"><div class="miniRowMain"><b>'+esc(f.subject)+'</b><span>'+esc(deal(f.deal_id))+'</span></div><span class="miniRowRight">'+esc(date(f.due_at))+'</span></div>').join("")+(due.length?"":'<p class="small muted">Nothing overdue.</p>')+'</div>',false,"View follow-ups","followups"),
@@ -176,10 +176,10 @@ function renderDashboard(){
   orders:()=>{const orders=S.requests.filter(q=>q.request_type==="order"&&!["completed","cancelled","lost"].includes(q.status));return dashCard("Orders",'<div class="miniList">'+orders.slice(0,6).map(q=>'<div class="miniRow"><div class="miniRowMain"><b>'+esc(q.request_number+" · "+(q.title||"Order"))+'</b><span>'+esc(requestContact(q))+' · '+esc(q.status.replaceAll("_"," "))+'</span></div><span class="miniRowRight">'+esc((q.currency||S.org.currency||"GHS")+" "+Number(q.total||0).toLocaleString())+'</span></div>').join("")+(orders.length?"":'<p class="small muted">No active orders.</p>')+'</div>',false,"Open requests","whatsapp")},
   stock:()=>{const items=S.services.filter(x=>x.inventory_tracking).sort((a,b)=>Number(a.stock_quantity??1e15)-Number(b.stock_quantity??1e15));return dashCard("Stock watch",'<div class="miniList">'+items.slice(0,6).map(x=>{const low=x.low_stock_threshold!=null&&Number(x.stock_quantity||0)<=Number(x.low_stock_threshold);return '<div class="miniRow"><div class="miniRowMain"><b>'+esc(x.name)+'</b><span>'+(low?'Low stock':'Tracking stock')+'</span></div><span class="miniRowRight">'+esc(x.stock_quantity??"—")+'</span></div>'}).join("")+(items.length?"":'<p class="small muted">No inventory-tracked items.</p>')+'</div>',false,"Open catalog","products_services")}
  };
- $("dashboardWidgets").innerHTML=dashboardWidgetIds().map(id=>widgets[id]?widgets[id]():"").join("");
+ $("dashboardWidgets").innerHTML=dashboardWidgetIds().filter(dashboardWidgetAllowed).map(id=>widgets[id]?widgets[id]():"").join("")||'<div class="card panel dashWidget wide"><p class="small muted">No dashboard widgets are available for your role. Ask a workspace admin to review your module access.</p></div>';
  if($("dashboardPresetSummary"))$("dashboardPresetSummary").textContent="Current preset: "+({general:"General",sales_quotes:"Sales & quotes",retail_orders:"Retail & orders",services_bookings:"Services & bookings"}[dashboardPreset()]||"General")+" · "+dashboardWidgetIds().length+" widgets";
 }
-window.goView=v=>switchView(v);
+window.goView=v=>{if(!canOpen(v))return toast("Your role does not have access to that area.",true);switchView(v)};
 function renderDashboardCustomize(){
  const d=S.dashboardDraft;if(!d)return;
  const labels={general:"General",sales_quotes:"Sales & quotes",retail_orders:"Retail & orders",services_bookings:"Services & bookings"};
