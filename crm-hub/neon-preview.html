@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Big Ernie CRM Hub | Private Neon Preview</title>
+  <link rel="stylesheet" href="/neon-preview.css">
+</head>
+<body>
+<header class="header"><div class="wrap headrow">
+  <div class="brand"><span class="logo">BE</span> BIG ERNIE <span class="light">CRM HUB</span></div>
+  <span class="badge">NEON FREE · DEVELOPMENT</span>
+</div></header>
+<main id="loginView" class="wrap loginLayout">
+  <section class="hero">
+    <span class="eyebrow">Private test environment</span>
+    <h1>Your CRM.<br><em>Built for what's next.</em></h1>
+    <p>Test new login, isolated company workspaces, sales pipelines and customer contacts using Neon. Your live CRM stays on Supabase while we finish migration.</p>
+    <div class="chips"><span>Neon PostgreSQL</span><span>Tenant isolation</span><span>Sales pipeline</span><span>Customer records</span></div>
+  </section>
+  <section class="card loginCard">
+    <h2>Welcome to the preview</h2><p class="muted">Existing Supabase passwords are not transferred. Use a new test account and a separate test password.</p>
+    <div class="tabs"><button class="active" id="tabLogin" type="button">Sign in</button><button id="tabSignup" type="button">Create test account</button></div>
+    <form id="authForm">
+      <label class="field hidden" id="nameField">Full name<input id="fullName" class="input" maxlength="160" autocomplete="name"></label>
+      <label class="field">Email address<input id="email" type="email" class="input" required autocomplete="email"></label>
+      <label class="field">Password<input id="password" type="password" minlength="8" class="input" required autocomplete="current-password"></label>
+      <button class="btn primary" id="submitAuth" type="submit">Sign in to preview</button>
+    </form>
+    <button class="btn oauth" id="googleAuth" type="button" style="margin-top:12px;width:100%">Continue with Google (test account)</button>
+    <div id="authError" class="errorBox hidden" role="alert"></div>
+    <div class="notice"><b>Development only.</b> Please do not enter real customer information, payment details, or WhatsApp credentials.</div>
+  </section>
+</main>
+<main id="appView" class="wrap app hidden">
+  <section class="banner">
+    <div><span class="eyebrow">Neon migration test</span><h1>Private CRM test workspace</h1><p>Isolated from live Supabase and Meta WhatsApp.</p></div>
+    <div class="right"><span id="userEmail"></span><button class="btn" id="signout" type="button">Sign out</button></div>
+  </section>
+  <div id="appError" class="errorBox hidden" role="alert"></div><div id="appSuccess" class="successBox hidden"></div>
+  <section class="card workspaceBox">
+    <div class="cardHead"><h2>Your workspace</h2><span class="chip green">Test records only</span></div>
+    <div class="workspaceRow"><select class="input" id="workspaceSelect" aria-label="Company workspace"></select><button class="btn" id="refresh">Refresh</button><button class="btn primary" id="showWorkspaceForm">+ New workspace</button></div>
+    <div id="createWorkspaceArea" class="hidden inset"><form id="workspaceForm">
+      <label class="field">Company name<input class="input" id="wsName" required minlength="2" maxlength="100" placeholder="Demo company"></label>
+      <label class="field">Industry<input class="input" id="wsIndustry" maxlength="100" placeholder="Optional"></label>
+      <label class="field">Business template<select class="input" id="wsTemplate"><option value="general">General CRM</option><option value="b2b_quotes">Quotes & B2B</option><option value="retail_orders">Retail</option><option value="services_bookings">Services</option><option value="beauty_wellness">Beauty & Wellness</option><option value="consulting">Consulting</option></select></label>
+      <button class="btn primary" id="submitWorkspace">Create test workspace</button>
+    </form></div>
+    <p class="muted" id="workspaceEmpty">Create your first test company to begin.</p>
+  </section>
+  <section id="workspaceData" class="hidden">
+    <div class="kpis"><div class="card kpi"><small>Open opportunities</small><b id="kpiOpen">0</b></div><div class="card kpi"><small>Pipeline value</small><b id="kpiValue">GH₵0</b></div><div class="card kpi"><small>Customer contacts</small><b id="kpiContacts">0</b></div></div>
+    <div class="columns">
+      <div class="stack">
+        <section class="card"><div class="cardHead"><h2>Sales pipeline</h2><span class="chip" id="dealCount">0 deals</span></div>
+          <div class="tableScroll"><table><thead><tr><th>Opportunity</th><th>Amount</th><th>Stage</th><th></th></tr></thead><tbody id="dealRows"></tbody></table></div>
+          <p class="empty" id="emptyDeals">No sample deals yet.</p></section>
+        <section class="card"><div class="cardHead"><h2>Customer contacts</h2><span class="chip" id="contactCount">0 contacts</span></div>
+          <div class="tableScroll"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th></th></tr></thead><tbody id="contactRows"></tbody></table></div>
+          <p class="empty" id="emptyContacts">No sample contacts yet.</p></section>
+        <section class="card"><div class="cardHead"><h2>WhatsApp status</h2><span class="chip amber">Disabled for safety</span></div>
+          <p class="muted">Live messaging, webhooks, invitations, billing and automatic replies remain on the existing platform until migration and security tests pass.</p>
+        </section>
+      </div>
+      <div class="stack">
+        <section class="card"><h2>New opportunity</h2><form id="dealForm">
+          <label class="field">Opportunity title<input id="dealTitle" class="input" required maxlength="120" placeholder="Sample enquiry"></label>
+          <label class="field">Estimated value, GHS<input id="dealAmount" type="number" min="0" step=".01" class="input" value="0" required></label>
+          <label class="field">Next action<input id="dealNext" class="input" maxlength="200" placeholder="Optional"></label>
+          <button class="btn primary" id="submitDeal">Add sample opportunity</button></form></section>
+        <section class="card"><h2>New contact</h2><form id="contactForm">
+          <label class="field">First name<input id="contactFirst" class="input" required maxlength="90"></label>
+          <label class="field">Last name<input id="contactLast" class="input" maxlength="90"></label>
+          <label class="field">Email<input id="contactEmail" type="email" class="input"></label>
+          <label class="field">Phone<input id="contactPhone" class="input"></label>
+          <button class="btn primary" id="submitContact">Add sample contact</button></form></section>
+      </div>
+    </div>
+  </section>
+  <p class="footer">TEST ENVIRONMENT. Neon uses isolated staging tables. No production records or credentials are imported.</p>
+</main>
+<script type="module" src="/neon-preview.js"></script>
+</body>
+</html>
