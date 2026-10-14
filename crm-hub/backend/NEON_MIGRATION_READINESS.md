@@ -50,3 +50,22 @@ The current 'Forgot password' flow calls `updateUser({password})` which **is not
 - **Do not** replace the current Supabase URL with a Neon URL in the existing production `createClient()` code: that is not a functional migration.
 - Until the full auth, policy, database, and webhook tests pass, leave functioning production unchanged.
 - The paused Pack Hub CRM project and the active Big Ernie CRM Hub project are distinct and must not be confused.
+
+
+## Staging schema parity update (2026-10-14)
+
+- The `crm_stage` schema was created on the Neon development database, **not on live CRM**.
+- Verified 30 empty CRM tables, 329 column definitions, 71 source non-FK constraints, 79 internal foreign keys, and 117 indexes.
+- The one remaining external foreign key, `profiles_id_fkey` from `public.profiles(id)` to Supabase `auth.users(id)`, is **intentionally deferred** pending an identity migration to Neon `neon_auth.user(id)`.
+- Every staging table has RLS enabled. There are zero migrated RLS policies, and both anonymous and authenticated roles lack usage privileges on the staging schema. This is a **closed test environment**, not a functioning tenant-secure customer backend.
+- Source counts: 2 confirmed password-based users, 2 workspaces, 2 profiles, 18 deals, 8 products/services and 2 subscriptions. **No individual email addresses, account IDs, credentials or customer records were copied.**
+- Source and staging schema structures are now suitable for **offline schema review only**. Not yet suitable for client sign-in or customer data imports.
+
+### Mandatory next work
+
+1. Choose the user re-enrollment process for the 2 existing password-based accounts. Neon Auth does not migrate Supabase password hashes.
+2. Preserve user identity to profile/workspace relationships securely. Record a private mapping only when authorized. Never migrate records without tested identity associations.
+3. Translate workspace and module RLS, helper functions, triggers and Edge Functions into a tested Neon Auth/Data API security design before exposing any table.
+4. Create an isolated staging frontend and run negative authorization tests with unrelated test workspaces.
+5. Export a private, restorable backup and run a dry-run data import without copying customer credentials or WhatsApp tokens.
+6. Keep production Supabase and Meta webhooks untouched until full functionality, billing and rollback verification.
