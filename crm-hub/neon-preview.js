@@ -17,6 +17,13 @@ function busy(id,state){const b=$(id);if(!b)return;b.disabled=state;if(!b.datase
 function loginView(){S.user=null;S.org=null;S.orgs=[];$("appView").classList.add("hidden");$("loginView").classList.remove("hidden");clearReport();}
 function appView(){$("loginView").classList.add("hidden");$("appView").classList.remove("hidden");}
 function setMode(signup){S.signup=signup;$("tabSignup").classList.toggle("active",signup);$("tabLogin").classList.toggle("active",!signup);$("nameField").classList.toggle("hidden",!signup);$("fullName").required=signup;$("submitAuth").dataset.defaultText=signup?"Create test account":"Sign in to preview";$("submitAuth").textContent=$("submitAuth").dataset.defaultText;$("password").autocomplete=signup?"new-password":"current-password";clearReport();}
+$("googleAuth").addEventListener("click",async()=>{
+ clearReport();busy("googleAuth",true);
+ try{
+  const r=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/neon-preview"}});
+  if(r.error)throw r.error;
+ }catch(err){report(err?.message||"Google login is unavailable");busy("googleAuth",false);}
+});
 $("tabSignup").addEventListener("click",()=>setMode(true));
 $("tabLogin").addEventListener("click",()=>setMode(false));
 $("authForm").addEventListener("submit",async e=>{
