@@ -69,3 +69,31 @@ The current 'Forgot password' flow calls `updateUser({password})` which **is not
 4. Create an isolated staging frontend and run negative authorization tests with unrelated test workspaces.
 5. Export a private, restorable backup and run a dry-run data import without copying customer credentials or WhatsApp tokens.
 6. Keep production Supabase and Meta webhooks untouched until full functionality, billing and rollback verification.
+
+
+## Private Neon functional preview (2026-10-14)
+
+**Status: staging implementation deployed; browser sign-in by a real test user not yet exercised.**
+
+- Stable Vercel preview URL: https://big-ernie-crm-hub-git-plan-neon-free-crm-migration-big-ernie.vercel.app/neon-preview
+- GitHub files `crm-hub/neon-preview.html`, `.css`, and `.js` use Neon JS v0.7.0-beta with `SupabaseAuthAdapter()` and the staging Data API only. Vercel Preview Authentication remains enabled.
+- Neon Auth email/password and development Google OAuth are available for a NEW test login, separate from the two existing Supabase password identities. Browser sign-up/sign-in and redirect flows still require human test completion.
+- Neon Data API's **sole exposed schema** is `crm_stage`, with CORS set to the stable protected preview hostname. Neon Auth trust list includes that hostname. No live production domain was switched to Neon.
+- Preview has login, new workspace creation, company switching, sales pipeline CRUD and customer contacts CRUD. WhatsApp, subscription charging and invites are explicitly disabled, not silently redirected to live systems.
+- `crm_stage` has 30 tables, 79 internal FKs, 117 indexes, 13 module metadata rows and 78 role/module defaults. The Supabase-specific `profiles.id -> auth.users` FK remains intentionally deferred.
+- Added staging RPCs `preview_bootstrap_profile`, `preview_create_workspace`, `preview_owns_workspace` and `preview_identity`. Function permissions restrict unauthenticated callers; only an owner may see/write their own workspace data in this preview. Other tables remain inaccessible by default.
+- Neon-owned `auth` schema grants are not available to the database `authenticated` role. Therefore RLS policies use a tightly scoped owner-owned `preview_identity()` wrapper to evaluate the verified request subject. Direct `auth.uid()` from `authenticated` produced a permission error; this is explicitly tested and addressed.
+- SQL role/JWT-claim **simulation** verified: User Alpha created a development test workspace and deal; User Beta had one own workspace, observed zero of Alpha's rows and was blocked on cross-workspace deal INSERT. This is not a substitute for testing with real Neon-issued JWTs through the browser and Data API.
+- All demo records use synthetic IDs. No customer data, payments, real contacts, existing user password hashes, or WhatsApp secrets were copied.
+- The preview URL is stable across additional commits on this branch. No production deployment has been promoted.
+
+### Still blocked from production switchover
+
+- Real test-user sign-up and session persistence verification, including OAuth.
+- Email verification/production SMTP, password recovery and existing-user re-enrollment procedure.
+- Full RBAC, 97 production-equivalent RLS policies, triggers, audit and service functions, strong relationship invariants.
+- Secure full backup with restoration test, then reconciled real-record import with correct user identity mapping.
+- Meta webhook, WhatsApp outbound reply, payment/billing integration and related secrets migration in an isolated sandbox.
+- Negative tests with actual signed Neon Auth JWTs, performance smoke, rollback rehearsal and explicit production approval.
+
+Do not merge/promote this branch to production as a completed Supabase replacement. The primary `index.html` remains the Supabase-powered production UI.
