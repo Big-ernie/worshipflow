@@ -93,8 +93,8 @@ body:not(.glass-dark).be-auth-visible #be-aurora-layer{opacity:.82}
 }
 @media(max-width:520px){
  #be-aurora-layer .be-aurora-pan{inset:-19%}
- #be-aurora-layer .be-aurora-image{background-position:43% center}
- body #auth .panelAuth{background:rgba(15,23,30,.85)!important}
+ #be-aurora-layer .be-aurora-image{background-position:92% center}
+ body #auth .panelAuth{background:rgba(15,23,30,.78)!important}
 }
 @media(prefers-reduced-motion:reduce){
  #be-aurora-layer,#be-aurora-layer *{animation:none!important;transition:none!important}
