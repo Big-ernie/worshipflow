@@ -64,6 +64,7 @@
 <div id="supportCard" class="card panel hidden" style="max-width:760px;margin-top:10px"><h3>Temporary support access</h3><p class="small muted">Customer admins can explicitly grant platform support staff time-limited access. Platform ownership alone does not grant access to customer CRM records.</p><div class="formGrid"><div class="field"><label>Support person</label><select id="supportStaff" class="input"></select></div><div class="field"><label>Duration</label><select id="supportHours" class="input"><option value="4">4 hours</option><option value="24" selected>24 hours</option><option value="72">3 days</option><option value="168">7 days</option></select></div><div class="field full"><label>Reason</label><input id="supportReason" class="input" placeholder="What do you need help with?"></div></div><button id="grantSupport" class="btn primary">Grant temporary access</button><div id="supportGrants" style="margin-top:10px"></div></div>
 </section>
 <section id="v-publicity" class="view">
+<div id="prResourceLinks" class="card panel hidden" style="margin-bottom:14px"><h3>Big Ernie Studios press resources</h3><p class="small muted" style="margin:0 0 12px">Owned-media resources, not third-party media endorsements.</p><div class="actionrow" style="display:flex;flex-wrap:wrap;gap:8px"><a class="btn primary" href="https://big-ernie-studios-pressroom.vercel.app/" target="_blank" rel="noopener noreferrer">Press room</a><a class="btn secondary" href="https://big-ernie-studios-pressroom.vercel.app/announcement.html" target="_blank" rel="noopener noreferrer">Company announcement</a><a class="btn secondary" href="https://big-ernie-studios-pressroom.vercel.app/media-kit.html" target="_blank" rel="noopener noreferrer">Media kit</a></div></div>
 <div class="head"><div><h1>Publicity &amp; Distribution</h1><p>Organize press campaigns, track real coverage, and measure spending. No publishing or purchasing happens here.</p></div><a class="btn secondary" href="https://www.brandpush.co/" rel="noopener noreferrer" target="_blank">BrandPush packages</a></div>
 <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:14px"><div class="card kpi"><span>Campaigns</span><b id="prCampaignN">0</b></div><div class="card kpi"><span>Published links recorded</span><b id="prLinksN">0</b></div><div class="card kpi"><span>Manually verified</span><b id="prVerifiedN">0</b></div><div class="card kpi"><span>Recorded spend (USD)</span><b id="prSpend">$0</b></div></div>
 <div class="grid2"><div class="card panel"><h3>Plan a campaign</h3><form id="prCampaignForm">
@@ -352,6 +353,7 @@ function prHttps(value){try{let u=new URL(String(value||""));return u.protocol==
 function prPrice(value){return "$"+Number(value||0).toLocaleString("en-US",{maximumFractionDigits:2})}
 async function renderPublicity(){
  if(!S.org||!can("reports"))return;
+ $("prResourceLinks").classList.toggle("hidden",!(S.org.workspace_type==="internal"&&/^Big Ernie\b/i.test(S.org.name)));
  const org=S.org.id;const msg=$("prMessage");msg.textContent="Loading publicity records...";
  const [campaigns,placements]=await Promise.all([
   sb.from("pr_campaigns").select("*").eq("organization_id",org).order("created_at",{ascending:false}),
@@ -368,7 +370,7 @@ async function renderPublicity(){
  $("prCampaignList").innerHTML=PRC.length?PRC.map(x=>{
   let options=["draft","approved","submitted","published","completed","cancelled"].map(s=>'<option value="'+s+'" '+(x.status===s?"selected":"")+'>'+s+'</option>').join("");
   let url=prHttps(x.destination_url);
-  return '<tr><td><b>'+esc(x.title)+'</b><div class="small">'+(url?'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Destination</a>':"Invalid URL")+'</div></td><td>'+esc(x.provider)+'</td><td>'+prPrice(x.budget_usd)+'</td><td><select class="input pr-status" data-id="'+esc(x.id)+'" '+(editable?"":"disabled")+'>'+options+'</select></td></tr>'
+  return '<tr><td><b>'+esc(x.title)+'</b><div class="small">'+(url?'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Destination</a> <button class="btn secondary pr-copy-link" data-id="'+esc(x.id)+'" type="button" aria-label="Copy tracked campaign URL">Copy tracked link</button>':"Invalid URL")+'</div></td><td>'+esc(x.provider)+'</td><td>'+prPrice(x.budget_usd)+'</td><td><select class="input pr-status" data-id="'+esc(x.id)+'" '+(editable?"":"disabled")+'>'+options+'</select></td></tr>'
  }).join(""):'<tr><td colspan="4">No campaigns yet.</td></tr>';
  $("prPlacementList").innerHTML=PRP.length?PRP.map(x=>{
   const campaign=PRC.find(c=>c.id===x.campaign_id),url=prHttps(x.article_url),verified=x.verification_status==="verified";
@@ -391,6 +393,16 @@ $("prPlacementForm").addEventListener("submit",async e=>{
  const row={organization_id:S.org.id,created_by:S.user.id,campaign_id,publisher:f.elements.publisher.value.trim(),article_url:url,placement_type:f.elements.type.value};
  const r=await sb.from("pr_placements").insert(row);
  if(r.error)return toast(r.error.message,true);f.reset();toast("Recorded unverified publication");await renderPublicity();
+});
+$("prCampaignList").addEventListener("click",async e=>{
+ const btn=e.target.closest(".pr-copy-link");if(!btn)return;
+ const item=PRC.find(x=>x.id===btn.dataset.id);if(!item)return;
+ const url=prHttps(item.destination_url);if(!url)return toast("Invalid destination",true);
+ const tracked=new URL(url);
+ tracked.searchParams.set("utm_source","pressroom");
+ tracked.searchParams.set("utm_medium","publicity");
+ tracked.searchParams.set("utm_campaign",item.title.toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"").slice(0,70));
+ try{await navigator.clipboard.writeText(tracked.href);toast("Tracked URL copied. Confirm your website analytics can record UTM referrals.")}catch{toast("Copy unavailable: "+tracked.href,true)}
 });
 $("prCampaignList").addEventListener("change",async e=>{
  let s=e.target;if(!s.matches(".pr-status")||!can("reports","edit"))return;
