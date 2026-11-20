@@ -2,7 +2,7 @@
 (()=>{'use strict';
 function start(){
  const top=document.querySelector('#app .top');if(!top||document.getElementById('be-toolbox'))return;
- let dark=false;try{dark=localStorage.getItem('be-glass-theme')==='dark'}catch{}
+ let dark=true;try{const saved=localStorage.getItem('be-glass-theme');dark=saved!=='light'}catch{}
  document.body.classList.toggle('glass-dark',dark);
  const toolbox=document.createElement('div');toolbox.className='be-tools';toolbox.id='be-toolbox';
  const switcher=document.createElement('a');switcher.className='be-switch';switcher.href='https://www.bigerniestudios.com/dashboard/';switcher.textContent='✦ Studio Command';
