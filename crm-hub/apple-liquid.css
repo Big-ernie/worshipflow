@@ -351,3 +351,101 @@ button,select,input,textarea{font:inherit}
  #app .card,#app .side,#app .top{border-color:rgba(255,255,255,.55)!important}
  #app .muted{color:#c7d0d4}
 }
+
+/* Command palette must honor the native hidden state. */
+.be-command-backdrop[hidden]{display:none!important}
+#app .be-nav-glyph svg{display:block;width:18px;height:18px;flex-shrink:0}
+
+/* Optional light appearance, preserving the same hierarchy and contrast. */
+body:not(.glass-dark){--bg:#e7eced;--card:#fff;--ink:#1a252d;--muted:#627078;
+ --line:rgba(27,47,54,.12);--be-panel:#fff;--be-raised:#f5f7f8;--be-elevated:#eff3f3;
+ --be-border:rgba(19,41,48,.15);color-scheme:light;
+ color:#1c282b;background:radial-gradient(ellipse at 77% 6%,rgba(207,222,221,.84),transparent 48%),
+ linear-gradient(145deg,#f3f5f5,#e9eef0)!important}
+body:not(.glass-dark):before{opacity:.1}
+body:not(.glass-dark) #app .top{
+ background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(234,240,243,.85));
+ border-color:rgba(255,255,255,.85);
+ box-shadow:inset 0 1px 0 #fff,0 12px 36px rgba(40,60,67,.11)}
+body:not(.glass-dark) .be-top-name strong{color:#1e2c2f}
+body:not(.glass-dark) .be-top-name small,
+body:not(.glass-dark) .be-workspace-picker label{color:#5f7078}
+body:not(.glass-dark) #app .top select#workspaceSelect{color:#233136;
+ background-color:rgba(255,255,255,.67);border-color:rgba(40,62,69,.18)}
+body:not(.glass-dark) #app .top #userLabel{color:#5e6d75}
+body:not(.glass-dark) #app .top #signOut{color:#293b42;
+ background:rgba(255,255,255,.55);border-color:rgba(28,46,53,.14)}
+body:not(.glass-dark) #app .side{background:linear-gradient(155deg,#24343b,#19262b)!important;
+ border-color:rgba(255,255,255,.12)}
+body:not(.glass-dark) #app .head h1{color:#202d31}
+body:not(.glass-dark) #app .head p{color:#61737c}
+body:not(.glass-dark) #app .card,
+body:not(.glass-dark) #app .panel,
+body:not(.glass-dark) #app .templateCard,
+body:not(.glass-dark) #app .attentionItem,
+body:not(.glass-dark) #app .timelineItem,
+body:not(.glass-dark) #app .dayCard,
+body:not(.glass-dark) #app .agentCard,
+body:not(.glass-dark) #app .waContextCard,
+body:not(.glass-dark) #app .usageCard,
+body:not(.glass-dark) #app .deal,
+body:not(.glass-dark) #app .templatePreview,
+body:not(.glass-dark) #app .waConversation{
+ background:linear-gradient(135deg,#fff,#f4f6f7)!important;
+ color:#253239;border:1px solid rgba(38,59,67,.13);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 8px 21px rgba(39,62,69,.055)}
+body:not(.glass-dark) #app .panel h3,
+body:not(.glass-dark) #app .dashWidget .widgetHead h3,
+body:not(.glass-dark) #app .miniRowMain b{color:#28343a}
+body:not(.glass-dark) #app .muted,
+body:not(.glass-dark) #app .miniRowMain span,
+body:not(.glass-dark) #app .miniRowRight{color:#617078}
+body:not(.glass-dark) #app .dashWidget:has(.kpi){background:transparent!important;border:0;box-shadow:none}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi{
+ background:linear-gradient(135deg,#fff,#f5f8f9)!important;
+ border-color:rgba(29,51,61,.14);box-shadow:0 8px 22px rgba(29,48,55,.05)}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi:first-child{
+ background:linear-gradient(145deg,#e4eed9,#f6f9f4)!important}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi:nth-child(2){
+ background:linear-gradient(145deg,#f5e9e8,#faf6f4)!important}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi:nth-child(3){
+ background:linear-gradient(145deg,#e6eff5,#f6f9fa)!important}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .kpi span{color:#54636b}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .kpi b{color:#203039}
+body:not(.glass-dark) #app .frow,
+body:not(.glass-dark) #app .frow b{color:#33474e}
+body:not(.glass-dark) #app .attentionItem b{color:#23313a}
+body:not(.glass-dark) #app .attentionItem span{color:#53656f}
+body:not(.glass-dark) #app .attentionItem:hover{background:#eff4f4!important}
+body:not(.glass-dark) #app .input,
+body:not(.glass-dark) .input{background:#fff!important;color:#1d2b31!important;
+ border-color:rgba(31,55,65,.17)}
+body:not(.glass-dark) #app .btn.secondary,
+body:not(.glass-dark) .btn.secondary{color:#25373d;
+ background:rgba(255,255,255,.75)!important;border-color:rgba(35,59,69,.18)}
+body:not(.glass-dark) #app th{background:#f1f5f5;color:#60717a}
+body:not(.glass-dark) #app td{color:#293b42;border-color:rgba(25,45,54,.1)}
+body:not(.glass-dark) #app tr:hover td{background:rgba(37,60,65,.03)}
+body:not(.glass-dark) #app .pipeline .col{background:#f3f6f6!important}
+body:not(.glass-dark) #app .pipeline .deal{background:#fff!important}
+body:not(.glass-dark) #app .miniRow{border-color:rgba(23,43,54,.12)}
+body:not(.glass-dark) #app .be-tool,
+body:not(.glass-dark) #app .be-switch{background:rgba(255,255,255,.62);
+ border-color:rgba(33,59,70,.15);color:#293a42}
+body:not(.glass-dark) #app .be-tool:hover,
+body:not(.glass-dark) #app .be-switch:hover{background:#fff}
+body:not(.glass-dark) #app .pill{background:#e6ecec;color:#3d5057}
+body:not(.glass-dark) #app .pill.green{background:#dcf2e3;color:#24663f}
+body:not(.glass-dark) #app .pill.amber{background:#f8edce;color:#775d29}
+body:not(.glass-dark) #app .pill.red{background:#f5dfe1;color:#8c3847}
+body:not(.glass-dark) .be-command-dialog{background:rgba(250,252,251,.98);
+ border-color:rgba(41,68,76,.17)}
+body:not(.glass-dark) .be-command-dialog>input,
+body:not(.glass-dark) .be-command-results button{color:#23343a}
+body:not(.glass-dark) .be-command-results small,
+body:not(.glass-dark) .be-command-foot{color:#64757e}
+body:not(.glass-dark) #app .waThread{background:#f2f6f5!important}
+body:not(.glass-dark) #app .waMsg.inbound{background:#fff!important;color:#23343b}
+body:not(.glass-dark) #app .waMsg.outbound{background:#def0e5!important;color:#224331}
+body:not(.glass-dark) #app .be-ai-foot{background:#f7faf8;color:#233a31;border-color:rgba(38,64,46,.13)}
+body:not(.glass-dark) #app .be-ai-foot p{color:#65766c}
