@@ -1,0 +1,111 @@
+/* Big Ernie CRM Hub, aurora background and motion.
+   Source artwork: original Big Ernie graphite/lime aurora.
+   All motion is presentational and does not change CRM functionality. */
+#be-aurora-layer{
+ position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+ background:#0c1119;opacity:.66;
+ transition:opacity .8s cubic-bezier(.22,1,.36,1);
+ contain:paint;
+}
+#be-aurora-layer .be-aurora-pan{
+ position:absolute;inset:-16%;
+ transform:translate3d(0,var(--be-parallax-y,0px),0);
+ will-change:transform;
+}
+#be-aurora-layer .be-aurora-image{
+ position:absolute;inset:0;
+ background-image:url("/be-aurora-motion.webp");
+ background-position:center center;background-size:cover;background-repeat:no-repeat;
+ transform:translate3d(-1.5%,.6%,0) scale(1.065);
+ animation:be-aurora-drift 36s ease-in-out infinite alternate;
+ will-change:transform;
+}
+#be-aurora-layer .be-aurora-shade{
+ position:absolute;inset:0;
+ background:
+  linear-gradient(90deg,rgba(4,8,14,.23),transparent 52%,rgba(2,5,9,.10)),
+  linear-gradient(180deg,rgba(4,8,13,.19),rgba(7,12,20,.29) 50%,rgba(3,7,14,.52));
+}
+@keyframes be-aurora-drift{
+ 0%{transform:translate3d(-1.5%,.6%,0) scale(1.065)}
+ 50%{transform:translate3d(.3%,-1.0%,0) scale(1.09)}
+ 100%{transform:translate3d(1.65%,.7%,0) scale(1.07)}
+}
+/* Keep all application controls and native dialogs above the artwork. */
+body #app.shell,body #auth.auth,body #onboard.onboard{
+ position:relative;z-index:1;
+}
+body .modalBack{z-index:30}
+body #toast{z-index:50}
+/* Login: full-bleed aurora with a darker, glassy sign-in side. */
+body.be-auth-visible #be-aurora-layer{opacity:1}
+body #auth.auth{
+ background:transparent!important;min-height:100dvh;
+}
+body #auth .hero{
+ position:relative;isolation:isolate;
+ animation:be-aurora-hero-in .95s cubic-bezier(.16,1,.3,1) both;
+}
+body #auth .hero:before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:linear-gradient(90deg,rgba(1,5,10,.20),transparent);
+}
+body #auth .hero b{color:#c8fb7c;letter-spacing:.13em}
+body #auth .hero h1{text-shadow:0 12px 45px rgba(0,0,0,.23)}
+body #auth .hero p{color:#d3dce0}
+body #auth .panelAuth{
+ background:linear-gradient(135deg,rgba(17,23,31,.78),rgba(22,30,39,.86))!important;
+ border-left:1px solid rgba(255,255,255,.09);
+ backdrop-filter:blur(28px) saturate(1.22);
+ -webkit-backdrop-filter:blur(28px) saturate(1.22);
+ animation:be-aurora-login-in .9s .08s cubic-bezier(.16,1,.3,1) both;
+}
+body #auth .authCard{
+ background:linear-gradient(135deg,rgba(60,67,77,.56),rgba(26,32,42,.78));
+ border:1px solid rgba(249,251,255,.2);
+ box-shadow:0 35px 90px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.1);
+}
+body #auth .authCard .input{color:#f3f5f6!important}
+body #auth .tabs button{transition:background-color .18s,color .18s}
+@keyframes be-aurora-hero-in{
+ from{opacity:0;transform:translate3d(0,20px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes be-aurora-login-in{
+ from{opacity:0;transform:translate3d(0,28px,0)}
+ to{opacity:1;transform:translate3d(0,0,0)}
+}
+/* In the CRM, retain a subdued backdrop so the data stays primary. */
+body:not(.be-auth-visible) #be-aurora-layer{opacity:.58}
+body:not(.be-auth-visible) #app .top{
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 15px 38px rgba(0,0,0,.25)
+}
+body:not(.be-auth-visible) #app .side{
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 18px 55px rgba(0,0,0,.24)
+}
+/* Light theme keeps the artwork extremely muted for contrast. */
+body:not(.glass-dark):not(.be-auth-visible) #be-aurora-layer{opacity:.10}
+body:not(.glass-dark).be-auth-visible #be-aurora-layer{opacity:.82}
+/* Keep scroll/portrait animation inexpensive and avoid distracting text movement. */
+@media(max-width:900px){
+ #be-aurora-layer .be-aurora-image{background-position:44% center}
+ body #auth .panelAuth{min-height:100dvh}
+}
+@media(max-width:520px){
+ #be-aurora-layer .be-aurora-pan{inset:-19%}
+ #be-aurora-layer .be-aurora-image{background-position:43% center}
+ body #auth .panelAuth{background:rgba(15,23,30,.85)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #be-aurora-layer,#be-aurora-layer *{animation:none!important;transition:none!important}
+ #be-aurora-layer .be-aurora-pan{transform:none!important;will-change:auto}
+ #be-aurora-layer .be-aurora-image{transform:none!important;will-change:auto}
+ body #auth .hero,body #auth .panelAuth{animation:none!important}
+}
+@media(prefers-reduced-transparency:reduce){
+ body #auth .panelAuth{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#141b24!important}
+}
+@media(prefers-contrast:more){
+ body #auth .panelAuth{background:rgba(9,16,23,.96)!important}
+ body:not(.be-auth-visible) #be-aurora-layer{opacity:.16}
+}
