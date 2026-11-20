@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#192a25">
+<title>Big Ernie CRM Hub | Glass Dashboard Preview</title>
+<link rel="stylesheet" href="/glass-command.css">
+<style>
+:root{--bg:#e8e7e0;--ink:#263b31;--muted:#78887b;--glass:rgba(255,255,255,.66);--glass-b:rgba(255,255,255,.82);--line:rgba(255,255,255,.75);--shadow:0 18px 55px rgba(31,49,38,.09);--accent:#38594a}
+*{box-sizing:border-box}
+#app .brand:before{content:none!important;display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 95% 6%,#c2d0c3,transparent 39%),radial-gradient(ellipse at 5% 80%,#ddcfbb,transparent 44%),#e9ebe5}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #b69766;outline-offset:2px}
+[hidden]{display:none!important}
+#app{display:grid;grid-template-columns:242px minmax(0,1fr);margin:14px;min-height:calc(100vh - 28px);border:1px solid var(--line);border-radius:26px;overflow:hidden;background:rgba(255,255,255,.22);box-shadow:0 28px 96px rgba(31,45,35,.12);backdrop-filter:blur(25px)}
+.sidebar{background:linear-gradient(155deg,#20372d,#243e34 66%,#314d3c);color:#f3f4ec;padding:25px 14px;display:flex;flex-direction:column;gap:17px}
+.brand{display:flex;align-items:center;gap:11px;padding:1px 10px 20px;border-bottom:1px solid #ffffff25}
+.brandmark{background:linear-gradient(140deg,#f7eedc,#d6bfa0);border-radius:13px;width:41px;height:41px;color:#21352a;display:grid;place-items:center;font:700 21px Georgia,serif;letter-spacing:-.09em}
+.brandtext b{font:600 17px Georgia,serif;letter-spacing:-.02em}
+.brandtext span{display:block;color:#bbc7b8;font-size:9px;letter-spacing:.16em;margin-top:4px}
+.work{border:1px solid #ffffff20;background:#ffffff10;border-radius:14px;padding:14px 13px}
+.work small{display:block;font-size:9px;letter-spacing:.17em;color:#c0ceb9;margin-bottom:7px}
+.work b{font-size:12px}
+.navtitle{font-size:9px;letter-spacing:.20em;color:#b5c2b3;padding:8px 12px 0}
+nav{display:grid;gap:5px}
+nav button{border:0;border-radius:12px;padding:12px 14px;background:transparent;color:#d8e3d8;display:flex;align-items:center;gap:12px;font-size:12px;font-weight:640;text-align:left;transition:background .2s,transform .2s}
+nav button:hover,nav button.active{color:#fff;background:#ffffff1c;box-shadow:inset 0 0 0 1px #ffffff20}
+nav button:hover{transform:translateX(2px)}
+nav .ico{font-size:16px;width:20px;opacity:.9;text-align:center}
+.sidebarfooter{margin-top:auto;color:#cbd4c5;line-height:1.8;font-size:10px;padding:15px 13px;border-top:1px solid #ffffff25}
+.sidebarfooter a{color:#fff}
+.main{min-width:0}
+.header{height:78px;padding:0 clamp(16px,3vw,38px);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);gap:10px}
+.path{font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase}
+.path span{color:#8d9f90}
+.headeractions{display:flex;gap:9px;align-items:center}
+.buttonglass{border:1px solid var(--line);border-radius:12px;padding:11px 14px;background:rgba(255,255,255,.55);color:var(--ink);font-size:11px;font-weight:700;white-space:nowrap;text-decoration:none;transition:transform .15s,background .15s}
+.buttonglass:hover{background:#fff;transform:translateY(-1px)}
+.buttonglass.square{font-size:17px;padding:8px 11px}
+.content{padding:clamp(19px,3vw,38px);max-width:1560px;margin:auto}
+.hero{display:flex;justify-content:space-between;align-items:end;gap:18px;flex-wrap:wrap;margin-bottom:26px}
+.eyebrow{color:#907652;font-weight:760;text-transform:uppercase;font-size:10px;letter-spacing:.19em;margin:0 0 13px}
+h1{font:500 clamp(29px,3.3vw,44px)/1.1 Georgia,serif;letter-spacing:-.045em;margin:0;color:var(--ink)}
+.subtitle{font-size:12px;color:var(--muted);line-height:1.8;margin:11px 0 0}
+.demo{border:1px solid #63896d45;background:#eaf3e9b8;border-radius:100px;font-weight:740;font-size:10px;color:#50765a;padding:9px 13px;white-space:nowrap}
+.demo:before{content:"●";margin-right:7px;color:#72a67f}
+.grid{display:grid;gap:15px}
+.kpis{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:17px}
+.panel,.metric{background:var(--glass);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.metric{padding:22px;min-height:142px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .18s}
+.metric:hover{transform:translateY(-2px)}
+.metric .topline{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.metric .topline span{font-size:10px;color:var(--muted);font-weight:760;text-transform:uppercase;letter-spacing:.09em}
+.metric .topline i{font-size:15px;font-style:normal;color:#779080}
+.metric strong{font:600 clamp(25px,2.6vw,35px) Georgia,serif;letter-spacing:-.05em}
+.metric .delta{font-size:10px;color:#607b64}
+.two{grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);margin-bottom:17px}
+.panel{padding:23px;min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}
+.panel-head h2{font-size:14px;margin:0;letter-spacing:-.01em}
+.panel-head p{font-size:10px;color:var(--muted);margin:4px 0 0}
+.pill{padding:7px 11px;border-radius:100px;border:1px solid #9caf994a;color:#52735b;background:#f9fbf5a6;font-size:10px;font-weight:700}
+.chart{width:100%;height:220px;overflow:visible}
+.chart text{font-family:Inter,system-ui,sans-serif;fill:#879588;font-size:11px}
+.chart line{stroke:#aebcb052;stroke-width:1}
+.legend{display:flex;gap:15px;align-items:center;color:var(--muted);font-size:10px}
+.legend:before{content:"";width:7px;height:7px;background:#5e9074;border-radius:50%}
+.activity{display:grid;gap:10px}
+.activity-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #687b6120}
+.activity-item:last-child{border-bottom:0}
+.avatar{height:38px;width:38px;border-radius:13px;display:grid;place-items:center;background:#dbe4d8;color:#435e4b;font-weight:700;font-size:12px;flex-shrink:0}
+.activity-item b{font-size:12px;display:block;margin-bottom:5px}
+.activity-item small{font-size:10px;color:var(--muted)}
+.activity-item .when{font-size:10px;color:var(--muted);margin-left:auto;text-align:right;white-space:nowrap}
+.actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.quick{background:rgba(255,255,255,.38);border:1px solid var(--line);padding:16px;text-align:left;border-radius:14px;color:var(--ink);font-size:11px;font-weight:700;display:flex;justify-content:space-between;gap:6px}
+.quick:hover{background:#fff}
+table{width:100%;border-collapse:collapse;text-align:left}
+th{font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;padding:14px 12px;border-bottom:1px solid #839a842e}
+td{padding:16px 12px;border-bottom:1px solid #839a8422;font-size:11px}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(255,255,255,.27)}
+.tablewrap{overflow:auto}
+.tag{font-size:10px;background:#dcebdc;color:#3d6d50;border-radius:100px;padding:6px 9px;display:inline-flex;white-space:nowrap}
+.tag.amber{color:#9b7338;background:#f3e7d1}
+.tag.blue{color:#557186;background:#dce8ec}
+.tag.gray{color:#727e74;background:#e6e9e4}
+.columns{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:12px;overflow:auto}
+.column{padding:13px;background:#ffffff57;border:1px solid #ffffffa3;border-radius:17px;min-height:290px}
+.column .colhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:11px;font-weight:750}
+.column .colhead span{background:#dce8dc;padding:5px 8px;border-radius:20px;color:#435e4b}
+.deal{background:rgba(255,255,255,.85);border:1px solid #ffffffa8;border-radius:13px;padding:14px;margin-bottom:9px;box-shadow:0 7px 19px #213f2910}
+.deal b{font-size:12px;display:block;line-height:1.5}
+.deal small{font-size:10px;color:#809082;display:block;margin:7px 0}
+.deal strong{font-size:12px}
+.list{display:grid;gap:12px}
+.appt{display:flex;align-items:center;gap:13px;padding:15px;border:1px solid var(--line);border-radius:13px;background:#ffffff60}
+.day{min-width:60px;font:500 24px Georgia,serif;text-align:center;color:#506e53}
+.day small{display:block;font:700 9px Inter,sans-serif;color:#889687;letter-spacing:.1em}
+.appt b{font-size:12px;display:block}
+.appt small{font-size:11px;color:var(--muted);display:block;margin-top:6px}
+.section[hidden]{display:none!important}
+.action{background:linear-gradient(125deg,#385949,#253f34);border:0;color:#fff;padding:12px 17px;border-radius:12px;font-weight:700;font-size:11px}
+.action:hover{filter:brightness(1.13)}
+.smallnote{font-size:11px;color:var(--muted);line-height:1.7}
+.searchBackdrop{position:fixed;inset:0;background:#11291c88;backdrop-filter:blur(13px);z-index:99;display:grid;place-items:start center;padding:13vh 14px}
+.searchDialog{background:#f5f7f1f5;border:1px solid #fff;border-radius:22px;max-width:550px;width:100%;padding:13px;box-shadow:0 35px 115px #08160e5e}
+.searchDialog input{width:100%;padding:15px;background:transparent;border:0;outline:none;font-size:15px}
+.searchresults{border-top:1px solid #879a872f;display:grid;gap:5px;padding-top:8px}
+.searchresults button{padding:12px;text-align:left;border:0;background:transparent;border-radius:10px;color:#334738;font-weight:650;font-size:12px}
+.searchresults button:hover{background:#e1e9df}
+.searchDialog small{display:block;padding:10px;color:#829282;font-size:10px}
+body.dark{--ink:#e2eee2;--muted:#a3b8a8;--glass:#263d32d9;--glass-b:#314a3add;--line:#d8e9d61c;--shadow:0 19px 55px #00000038;--accent:#b0bc9c;background:radial-gradient(ellipse at 84% 13%,#244d38,transparent 40%),#111d18}
+.dark #app{background:#0f221a6b;border-color:var(--line)}
+.dark .header{border-color:var(--line)}
+.dark .buttonglass,.dark .quick,.dark .column,.dark .appt{background:#304838ad;border-color:var(--line);color:var(--ink)}
+.dark .deal{background:#2a4438;border-color:var(--line);color:var(--ink)}
+.dark .metric strong,.dark h1{color:var(--ink)}
+.dark .tag{background:#385f42;color:#d9f0da}
+.dark .tag.amber{background:#6d5631;color:#f9e2b3}
+.dark .tag.blue{background:#304f5c;color:#d4e5e9}
+.dark .tag.gray{background:#455249;color:#ecf1e8}
+.dark .demo{background:#2c4e35;color:#c1e0c4;border-color:#86af8b55}
+.dark .avatar{background:#45634d;color:#e1f0df}
+.dark .chart text{fill:#b7c7b7}
+.dark .chart line{stroke:#91a89528}
+@media(max-width:1160px){.kpis{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:850px){#app{display:block;margin:0;border-radius:0;min-height:100vh}.sidebar{padding:13px 17px}.brand{border:0;padding:0}.work,.navtitle,.sidebarfooter{display:none}nav{display:flex;overflow-x:auto;gap:5px}nav button{white-space:nowrap}nav button .ico{display:none}.header{padding:0 17px;height:65px}.content{padding:22px 17px}.two{grid-template-columns:1fr}}
+@media(max-width:550px){.kpis{gap:10px}.metric{padding:15px;min-height:125px}.metric strong{font-size:28px}.actions{grid-template-columns:1fr}.headeractions .wide{display:none}.panel{padding:17px}.chart{height:170px}.hero{margin-bottom:19px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+ <aside class="sidebar" aria-label="CRM navigation">
+  <div class="brand"><div class="brandmark">BE.</div><div class="brandtext"><b>Big Ernie</b><span>CRM COMMAND</span></div></div>
+  <div class="work"><small>ACTIVE WORKSPACE</small><b>Big Ernie Studios</b></div>
+  <div class="navtitle">YOUR WORKSPACE</div>
+  <nav id="nav">
+   <button data-view="overview" class="active"><span class="ico">◈</span> Overview</button>
+   <button data-view="pipeline"><span class="ico">▥</span> Deals & Pipeline</button>
+   <button data-view="contacts"><span class="ico">♙</span> Contacts</button>
+   <button data-view="appointments"><span class="ico">▦</span> Appointments</button>
+   <button data-view="quotes"><span class="ico">▤</span> Quotations</button>
+   <button data-view="conversations"><span class="ico">✉</span> Conversations</button>
+   <button data-view="reports"><span class="ico">◫</span> Reports</button>
+  </nav>
+  <div class="sidebarfooter">Interactive design preview<br>Sample figures only, no customer data.<br><a href="https://www.bigerniestudios.com/dashboard/">Website Studio Command ↗</a></div>
+ </aside>
+ <div class="main">
+ <header class="header"><div class="path">BIG ERNIE <span>/</span> <b id="path">OVERVIEW</b></div>
+  <div class="headeractions">
+   <button class="buttonglass wide" id="search">⌘ K &nbsp; Search</button>
+   <a class="buttonglass wide" href="https://www.bigerniestudios.com/dashboard/">Studio Command ↗</a>
+   <button class="buttonglass square" id="theme" aria-label="Switch to dark mode">☾</button>
+  </div>
+ </header>
+ <main class="content">
+  <section class="section" id="overview">
+   <div class="hero"><div><p class="eyebrow">YOUR BUSINESS AT A GLANCE</p><h1>Good morning, welcome back.</h1><p class="subtitle">Here is how your studio is moving today.</p></div><span class="demo">DEMO DATA · DESIGN PREVIEW</span></div>
+   <div class="grid kpis">
+    <article class="metric"><div class="topline"><span>Pipeline value</span><i>◈</i></div><strong>GH₵ 84,500</strong><span class="delta">Illustrative opportunities</span></article>
+    <article class="metric"><div class="topline"><span>Active leads</span><i>◉</i></div><strong>28</strong><span class="delta">Sample contacts</span></article>
+    <article class="metric"><div class="topline"><span>Quotes pending</span><i>▤</i></div><strong>07</strong><span class="delta">Awaiting responses</span></article>
+    <article class="metric"><div class="topline"><span>Appointments</span><i>▦</i></div><strong>05</strong><span class="delta">Sample schedule this week</span></article>
+   </div>
+   <div class="grid two">
+    <article class="panel">
+     <div class="panel-head"><div><h2>Revenue opportunity trend</h2><p>Illustrative monthly pipeline, GHS</p></div><span class="pill">Last 6 months</span></div>
+     <svg class="chart" viewBox="0 0 640 230" role="img" aria-label="Sample pipeline trend increases from June to November">
+      <defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#69937a" stop-opacity=".35"/><stop offset="1" stop-color="#69937a" stop-opacity="0"/></linearGradient></defs>
+      <line x1="20" y1="45" x2="625" y2="45"/><line x1="20" y1="95" x2="625" y2="95"/><line x1="20" y1="145" x2="625" y2="145"/><line x1="20" y1="195" x2="625" y2="195"/>
+      <path d="M25 176 C76 169 94 143 142 154 S241 122 265 132 S358 65 387 88 S473 116 505 69 S570 49 620 22 L620 195 L25 195Z" fill="url(#area)"/>
+      <path d="M25 176 C76 169 94 143 142 154 S241 122 265 132 S358 65 387 88 S473 116 505 69 S570 49 620 22" fill="none" stroke="#578a6f" stroke-width="4" stroke-linecap="round"/>
+      <g fill="#4f8165"><circle cx="25" cy="176" r="5"/><circle cx="142" cy="154" r="5"/><circle cx="265" cy="132" r="5"/><circle cx="387" cy="88" r="5"/><circle cx="505" cy="69" r="5"/><circle cx="620" cy="22" r="5"/></g>
+      <text x="25" y="219">Jun</text><text x="140" y="219">Jul</text><text x="258" y="219">Aug</text><text x="374" y="219">Sep</text><text x="491" y="219">Oct</text><text x="595" y="219">Nov</text>
+     </svg><div class="legend">Sample opportunity value</div>
+    </article>
+    <article class="panel">
+     <div class="panel-head"><div><h2>Recent activity</h2><p>Example client touchpoints</p></div><span class="pill">Preview</span></div>
+     <div class="activity">
+      <div class="activity-item"><div class="avatar">AM</div><div><b>New production enquiry</b><small>Audio production · Example client</small></div><span class="when">09:42</span></div>
+      <div class="activity-item"><div class="avatar">JO</div><div><b>Quotation requested</b><small>Event coverage · Example lead</small></div><span class="when">Yesterday</span></div>
+      <div class="activity-item"><div class="avatar">KL</div><div><b>Meeting scheduled</b><small>Brand website · Example project</small></div><span class="when">Wed</span></div>
+      <div class="activity-item"><div class="avatar">SD</div><div><b>Deal moved to negotiation</b><small>Studio services · Example opportunity</small></div><span class="when">Mon</span></div>
+     </div>
+    </article>
+   </div>
+   <article class="panel"><div class="panel-head"><h2>Quick actions</h2><p>Sample navigation</p></div><div class="actions">
+    <button class="quick" data-go="pipeline">Review opportunities <span>↗</span></button>
+    <button class="quick" data-go="contacts">Browse contacts <span>↗</span></button>
+    <button class="quick" data-go="appointments">Upcoming meetings <span>↗</span></button>
+   </div></article>
+  </section>
+  <section class="section" id="pipeline" hidden>
+   <div class="hero"><div><p class="eyebrow">OPPORTUNITIES</p><h1>Deals & Pipeline</h1><p class="subtitle">An elegant, organized view of every opportunity.</p></div><span class="demo">DEMO DATA</span></div>
+   <article class="panel"><div class="panel-head"><h2>Opportunity board</h2><span class="pill">Illustrative stages</span></div>
+    <div class="columns">
+     <div class="column"><div class="colhead">New enquiry <span>2</span></div><div class="deal"><b>Studio recording session</b><small>Example prospect</small><strong>GH₵ 3,500</strong></div><div class="deal"><b>Short-form campaign</b><small>Example prospect</small><strong>GH₵ 6,000</strong></div></div>
+     <div class="column"><div class="colhead">Quote sent <span>2</span></div><div class="deal"><b>Event sound setup</b><small>Example company</small><strong>GH₵ 12,500</strong></div><div class="deal"><b>Corporate video</b><small>Example company</small><strong>GH₵ 18,000</strong></div></div>
+     <div class="column"><div class="colhead">Negotiation <span>1</span></div><div class="deal"><b>Website & automation</b><small>Example client</small><strong>GH₵ 25,000</strong></div></div>
+     <div class="column"><div class="colhead">Won <span>1</span></div><div class="deal"><b>Multitrack production</b><small>Example client</small><strong>GH₵ 8,000</strong></div></div>
+    </div>
+   </article>
+  </section>
+  <section class="section" id="contacts" hidden>
+   <div class="hero"><div><p class="eyebrow">PEOPLE & RELATIONSHIPS</p><h1>Contacts</h1><p class="subtitle">A beautiful home for every client relationship.</p></div><span class="demo">SAMPLE CONTACTS</span></div>
+   <article class="panel"><div class="panel-head"><h2>Contact directory</h2><input id="contactsFilter" aria-label="Filter sample contacts" placeholder="Search sample contacts..." style="padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:var(--glass);color:var(--ink);max-width:225px"></div>
+   <div class="tablewrap"><table><thead><tr><th>Contact</th><th>Company</th><th>Service interest</th><th>Status</th></tr></thead><tbody id="contactsRows">
+    <tr><td>Akosua Mensah</td><td>Example Media Co.</td><td>Video production</td><td><span class="tag">Active</span></td></tr>
+    <tr><td>Kwame Boateng</td><td>Sample Events Ltd.</td><td>Live sound</td><td><span class="tag amber">Following up</span></td></tr>
+    <tr><td>Efua Agyeman</td><td>Demo Brand</td><td>Website development</td><td><span class="tag blue">New enquiry</span></td></tr>
+    <tr><td>Kojo Asare</td><td>Sample Music</td><td>Mixing & mastering</td><td><span class="tag gray">Prospect</span></td></tr>
+   </tbody></table></div></article>
+  </section>
+  <section class="section" id="appointments" hidden>
+   <div class="hero"><div><p class="eyebrow">YOUR SCHEDULE</p><h1>Appointments</h1><p class="subtitle">Upcoming conversations and client sessions.</p></div><span class="demo">SAMPLE SCHEDULE</span></div>
+   <article class="panel"><div class="panel-head"><h2>Upcoming appointments</h2><span class="pill">Example calendar</span></div><div class="list">
+    <div class="appt"><div class="day">23<small>NOV</small></div><div><b>Discovery call · Website automation</b><small>10:00 AM · Video call</small></div></div>
+    <div class="appt"><div class="day">24<small>NOV</small></div><div><b>Studio production consultation</b><small>1:30 PM · Studio meeting</small></div></div>
+    <div class="appt"><div class="day">26<small>NOV</small></div><div><b>Event production planning</b><small>11:00 AM · Client site</small></div></div>
+   </div></article>
+  </section>
+  <section class="section" id="quotes" hidden>
+   <div class="hero"><div><p class="eyebrow">PROPOSALS & PRICING</p><h1>Quotations</h1><p class="subtitle">Keep every proposed engagement moving.</p></div><span class="demo">SAMPLE DATA</span></div>
+   <article class="panel"><div class="panel-head"><h2>Recent quotations</h2><span class="pill">GHS</span></div><div class="tablewrap"><table>
+   <thead><tr><th>Reference</th><th>Service</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Q-1042</td><td>Event technical production</td><td>GH₵ 12,500</td><td><span class="tag amber">Pending</span></td></tr>
+    <tr><td>Q-1041</td><td>Corporate video package</td><td>GH₵ 18,000</td><td><span class="tag blue">Sent</span></td></tr>
+    <tr><td>Q-1040</td><td>Recording and mixing</td><td>GH₵ 8,000</td><td><span class="tag">Accepted</span></td></tr>
+   </tbody></table></div></article>
+  </section>
+  <section class="section" id="conversations" hidden>
+   <div class="hero"><div><p class="eyebrow">COMMUNICATIONS</p><h1>Conversations</h1><p class="subtitle">A calm inbox for client communication.</p></div><span class="demo">SAMPLE INBOX</span></div>
+   <article class="panel"><div class="panel-head"><h2>Conversation list</h2><span class="pill">Illustrative messages</span></div><div class="activity">
+    <div class="activity-item"><div class="avatar">AM</div><div><b>Akosua Mensah</b><small>Hello, can we discuss the video package?</small></div><span class="when">10:32</span></div>
+    <div class="activity-item"><div class="avatar">KB</div><div><b>Kwame Boateng</b><small>Thank you, we will review the quotation.</small></div><span class="when">Yesterday</span></div>
+    <div class="activity-item"><div class="avatar">EA</div><div><b>Efua Agyeman</b><small>Could we arrange a meeting next week?</small></div><span class="when">Mon</span></div>
+   </div><p class="smallnote">This preview does not send messages or connect to real WhatsApp conversations.</p></article>
+  </section>
+  <section class="section" id="reports" hidden>
+   <div class="hero"><div><p class="eyebrow">BUSINESS INTELLIGENCE</p><h1>Reports</h1><p class="subtitle">Useful insight, presented beautifully.</p></div><span class="demo">SAMPLE METRICS</span></div>
+   <div class="grid kpis">
+    <article class="metric"><div class="topline"><span>Leads this month</span></div><strong>18</strong><span class="delta">Illustrative total</span></article>
+    <article class="metric"><div class="topline"><span>Followups due</span></div><strong>04</strong><span class="delta">Illustrative total</span></article>
+    <article class="metric"><div class="topline"><span>Deals won</span></div><strong>06</strong><span class="delta">Illustrative total</span></article>
+    <article class="metric"><div class="topline"><span>Quoted value</span></div><strong>GH₵ 54K</strong><span class="delta">Illustrative value</span></article>
+   </div>
+   <article class="panel"><h2>Data integrity</h2><p class="smallnote">The production CRM must calculate reports from verified Supabase records. These sample metrics are design placeholders, not financial or customer statements.</p></article>
+  </section>
+ </main>
+ </div>
+</div>
+<div class="searchBackdrop" id="searchOverlay" hidden>
+ <div class="searchDialog" role="dialog" aria-label="Search CRM preview"><input id="searchInput" aria-label="Search dashboard sections" placeholder="Search sections..." autocomplete="off">
+  <div class="searchresults" id="searchResults"></div><small>Enter to open · Esc to close</small>
+ </div>
+</div>
+<script>
+(()=>{
+const nav=[...document.querySelectorAll('#nav button')],sections=[...document.querySelectorAll('.section')],path=document.getElementById('path'),overlay=document.getElementById('searchOverlay'),input=document.getElementById('searchInput'),results=document.getElementById('searchResults');
+const names={overview:'Overview',pipeline:'Deals & Pipeline',contacts:'Contacts',appointments:'Appointments',quotes:'Quotations',conversations:'Conversations',reports:'Reports'};
+function go(id){if(!names[id])return;sections.forEach(x=>x.hidden=x.id!==id);nav.forEach(b=>{const active=b.dataset.view===id;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});path.textContent=names[id].toUpperCase();closeSearch();window.scrollTo({top:0,behavior:'instant'})}
+nav.forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+const theme=document.getElementById('theme');function updateTheme(){const isDark=document.body.classList.contains('dark');theme.textContent=isDark?'☼':'☾';theme.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode')}
+try{if(localStorage.getItem('be-crm-preview-theme')==='dark')document.body.classList.add('dark')}catch{}updateTheme();
+theme.addEventListener('click',()=>{const isDark=document.body.classList.toggle('dark');try{localStorage.setItem('be-crm-preview-theme',isDark?'dark':'light')}catch{}updateTheme()});
+function closeSearch(){overlay.hidden=true;input.value=''}
+function showSearch(){results.replaceChildren();const q=input.value.trim().toLowerCase();nav.filter(b=>b.textContent.trim().toLowerCase().includes(q)).forEach(b=>{const x=document.createElement('button');x.textContent=names[b.dataset.view];x.addEventListener('click',()=>go(b.dataset.view));results.append(x)});if(!results.children.length){const p=document.createElement('small');p.textContent='No matching sections';results.append(p)}}
+function openSearch(){overlay.hidden=false;showSearch();input.focus()}
+document.getElementById('search').addEventListener('click',openSearch);input.addEventListener('input',showSearch);
+input.addEventListener('keydown',e=>{if(e.key==='Enter')results.querySelector('button')?.click()});
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeSearch()});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();overlay.hidden?openSearch():closeSearch()}if(e.key==='Escape')closeSearch()});
+document.getElementById('contactsFilter').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll('#contactsRows tr').forEach(tr=>tr.hidden=!tr.textContent.toLowerCase().includes(q))});
+})();
+</script>
+</body>
+</html>

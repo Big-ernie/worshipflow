@@ -1,0 +1,451 @@
+/* Big Ernie CRM Hub, Apple-inspired Graphite Glass 2026.
+   Presentation only: no data model, permissions, or backend logic changes.
+   Glass is used on navigation and controls; data surfaces remain legible. */
+:root {
+  --bg:#0b0e12; --card:#1c2129; --ink:#f1f3f2; --muted:#a0a7ae;
+  --line:rgba(230,237,244,.12); --dark:#10151b; --green:#baf35b;
+  --accent:#c0f266; --red:#ed9c9b; --amber:#eac183;
+  --be-lime:#c2f36b; --be-white:#f5f7f8; --be-panel:#1c222a;
+  --be-raised:#262c35; --be-elevated:#242a33;
+  --be-border:rgba(242,247,255,.115);
+  --be-shadow:0 14px 36px rgba(0,0,0,.18);
+  --be-glass:rgba(48,52,62,.72);
+  --be-backdrop:blur(30px) saturate(1.38);
+  color-scheme:dark;
+}
+html{background:#0b0e12;scroll-behavior:smooth}
+body,body.glass-dark{
+  background:radial-gradient(ellipse 58% 48% at 82% 14%,rgba(83,97,115,.21),transparent 72%),
+             radial-gradient(ellipse 42% 38% at 3% 89%,rgba(43,60,59,.23),transparent 70%),
+             linear-gradient(145deg,#090c11,#10141a 53%,#090d13)!important;
+  color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,Inter,"Segoe UI",system-ui,sans-serif!important;
+}
+body:before,body.glass-dark:before{
+ content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(ellipse 60% 8% at 54% 0%,rgba(208,219,235,.10),transparent 74%),
+            radial-gradient(ellipse 53% 70% at 70% 110%,rgba(33,44,59,.22),transparent 65%);
+ opacity:.85;
+}
+::selection{background:#b8e779;color:#0e1510}
+button,select,input,textarea{font:inherit}
+:focus-visible{outline:2px solid var(--be-lime)!important;outline-offset:3px}
+#app.shell{
+ display:grid;grid-template-columns:218px minmax(0,1fr);
+ grid-template-rows:70px minmax(0,1fr);
+ column-gap:27px;row-gap:19px;align-items:start;
+ min-height:100dvh;margin:0;padding:18px 21px 22px;
+ background:transparent!important;box-shadow:none;border:0;overflow:visible;border-radius:0;
+ backdrop-filter:none;-webkit-backdrop-filter:none;
+}
+#app .main{display:contents}
+#app .top{
+ grid-column:1 / -1;grid-row:1;position:sticky;top:18px;z-index:24;
+ height:70px;min-width:0;display:flex;justify-content:space-between;gap:18px;
+ padding:0 20px 0 22px;border:1px solid rgba(250,251,255,.23);
+ border-radius:24px;
+ background:linear-gradient(145deg,rgba(85,90,103,.42),rgba(30,34,43,.67) 30%,rgba(41,44,52,.76));
+ backdrop-filter:blur(28px) saturate(1.48);-webkit-backdrop-filter:blur(28px) saturate(1.48);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.17),0 13px 32px rgba(0,0,0,.18);
+}
+.be-top-identity{display:flex;align-items:center;gap:12px;min-width:190px;flex:0 0 auto}
+.be-top-mark{width:39px;height:39px;display:grid;place-items:center;flex:0 0 auto;
+ border-radius:11px;background:var(--be-lime);color:#111b0c;
+ font-size:18px;font-weight:800;letter-spacing:-.095em;
+ box-shadow:0 3px 14px rgba(176,239,102,.12)}
+.be-top-name{display:flex;flex-direction:column;gap:2px;line-height:1.08}
+.be-top-name strong{font-size:18px;font-weight:680;letter-spacing:-.045em;color:#f6f7f6}
+.be-top-name small{font-size:10px;letter-spacing:.15em;font-weight:620;color:#afb6bf}
+.be-workspace-picker{display:flex;flex-direction:column;justify-content:center;
+ gap:2px;min-width:185px;max-width:300px;flex:1 1 240px}
+.be-workspace-picker label{font-size:9px;font-weight:700;letter-spacing:.09em;color:#aab4bd}
+#app .top select#workspaceSelect{font-size:12px;font-weight:640;max-width:300px;min-width:125px;
+ width:100%;height:37px;min-height:37px;border:1px solid rgba(255,255,255,.18);
+ border-radius:12px;padding:0 34px 0 12px;background-color:rgba(255,255,255,.06);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.05);color:#f2f4f1;
+}
+#app .top select#workspaceSelect option{background:#20252d;color:#f3f5f2}
+.be-user-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+#app .top #userLabel{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+ color:#aeb5bf;font-size:11px}
+#app .top #signOut{background:rgba(255,255,255,.06);color:#e0e6e7;
+ border:1px solid rgba(255,255,255,.14);border-radius:11px;font-size:11px;padding:9px 12px}
+#app .side{
+ grid-column:1;grid-row:2;position:sticky;top:107px;align-self:start;
+ display:flex;flex-direction:column;overflow-y:auto;
+ width:100%;height:calc(100dvh - 130px);min-height:480px;
+ border-radius:25px;padding:18px 10px 14px;
+ background:linear-gradient(153deg,rgba(69,73,84,.55) 0%,rgba(29,34,44,.80) 23%,rgba(29,35,44,.70) 100%)!important;
+ border:1px solid rgba(239,242,251,.17);
+ box-shadow:inset 0 1px 0 rgba(249,250,255,.15),0 14px 50px rgba(0,0,0,.15);
+ backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);
+ color:#eef1ef;
+}
+#app .side .brand{display:none}
+#app .side .workspaceBox{order:2;margin:auto 5px 1px;padding:14px 13px;
+ border-radius:16px;background:rgba(232,236,240,.065);border:1px solid rgba(255,255,255,.13)}
+#app .side .workspaceBox:before{content:"CURRENT WORKSPACE";display:block;margin:0 0 9px;
+ color:#8b959e;letter-spacing:.13em;font-size:9px;font-weight:750}
+#app .side .workspaceBox b{display:block;color:#e5eceb;font-size:12px;line-height:1.45}
+#app .side .workspaceBox span{display:block;color:#aab6b6;font-size:10px;letter-spacing:.075em;margin-top:3px}
+#app .nav{order:1;display:grid;align-content:start;gap:4px;width:100%}
+#app .navGroup{margin:14px 13px 5px;font-size:10px;font-weight:700;letter-spacing:.115em;color:#89939f}
+#app .nav button{
+ display:flex;align-items:center;gap:13px;text-align:left;min-height:38px;
+ border:1px solid transparent;border-radius:13px;padding:9px 11px;
+ color:#c8d0d7;font-size:12px;font-weight:560;letter-spacing:-.006em;
+ background:transparent;transition:background .22s,box-shadow .22s,color .22s,transform .22s;
+}
+#app .nav button:hover{transform:none;color:#f6f8f7;background:rgba(255,255,255,.085)}
+#app .nav button.active{
+ color:#eaf4d4;background:linear-gradient(115deg,rgba(169,223,119,.34),rgba(137,173,124,.19));
+ border-color:rgba(188,241,128,.24);
+ box-shadow:inset 0 1px 0 rgba(236,255,207,.18),0 7px 19px rgba(0,0,0,.09);
+}
+#app .nav .be-nav-glyph{display:inline-flex;align-items:center;justify-content:center;
+ width:18px;height:18px;flex:0 0 18px;font-size:17px;font-weight:500;
+ font-style:normal;opacity:.92}
+#app .content{grid-column:2;grid-row:2;min-width:0;width:100%;max-width:none;
+ margin:0;padding:3px 0 24px;background:transparent}
+#app .head{gap:16px;align-items:center;margin-bottom:19px}
+#app .head h1{font-family:-apple-system,BlinkMacSystemFont,Inter,system-ui,sans-serif;
+ font-size:clamp(27px,2.55vw,38px);font-weight:690;letter-spacing:-.052em;
+ line-height:1.16;color:#f2f4f3}
+#app .head h1#dashboardTitle{font-size:clamp(30px,3.1vw,42px)}
+#app .head p{font-size:13px;line-height:1.55;margin-top:5px;color:#a6b0b7}
+#app .head .btn{white-space:nowrap}
+#app .card,#app .panel,#app .templateCard,#app .attentionItem,#app .timelineItem,
+#app .dayCard,#app .agentCard,#app .waContextCard,#app .usageCard,
+#app .deal,#app .templatePreview,#app .waConversation{
+ background:linear-gradient(135deg,rgba(44,50,61,.88),rgba(27,32,40,.96))!important;
+ border:1px solid rgba(226,232,242,.12);border-radius:20px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 10px 28px rgba(0,0,0,.10);
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;color:#eef1f0;
+}
+#app .card:hover,#app .templateCard:hover,#app .attentionItem:hover{
+ transform:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 13px 30px rgba(0,0,0,.16);
+ border-color:rgba(233,240,246,.20);
+}
+#app .panel,#app .kpi{padding:clamp(16px,1.6vw,22px)}
+#app .panel h3{font-size:15px;font-weight:660;letter-spacing:-.026em;color:#f1f3f2}
+#app .dashboardWidgets{grid-template-columns:minmax(0,1.38fr) minmax(0,1fr);
+ gap:16px;align-items:stretch}
+#app .dashWidget.wide{grid-column:1/-1}
+#app .dashWidget:has(.kpi){grid-column:1/-1;order:0;padding:0;background:transparent!important;border:0;
+ box-shadow:none;overflow:visible}
+#app .dashWidget:has(.kpi)>.widgetHead{display:none}
+#app .dashWidget:has(.kpi) .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:14px}
+#app .dashWidget:has(.kpi) .cards .kpi{
+ min-height:129px;padding:18px 18px 15px;background:linear-gradient(135deg,#252d34,#22262e 72%)!important;
+ border:1px solid rgba(255,255,255,.13);border-radius:18px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 12px 24px rgba(0,0,0,.11)}
+#app .dashWidget:has(.kpi) .cards .kpi:nth-child(1){
+ background:linear-gradient(145deg,rgba(60,72,56,.68),#252b2c)!important;
+ border-color:rgba(187,232,110,.22)}
+#app .dashWidget:has(.kpi) .cards .kpi:nth-child(2){
+ background:linear-gradient(145deg,rgba(66,56,61,.85),#25262d)!important}
+#app .dashWidget:has(.kpi) .cards .kpi:nth-child(3){
+ background:linear-gradient(145deg,#303d4a,#242a32)!important}
+#app .dashWidget:has(.kpi) .kpi span{font-size:12px;line-height:1.4;font-weight:560;
+ letter-spacing:-.009em;text-transform:none;color:#c8d0d5}
+#app .dashWidget:has(.kpi) .kpi b{
+ font-size:clamp(22px,2.2vw,32px);font-weight:680;letter-spacing:-.05em;
+ margin-top:17px;line-height:1.15;color:#f5f6f5;overflow-wrap:anywhere}
+#app .dashWidget:has(.funnel){order:1;grid-column:1}
+#app .dashWidget:has(.attentionGrid){order:2;grid-column:2}
+#app .dashWidget:not(:has(.funnel,.attentionGrid,.kpi)){order:3}
+#app .dashWidget .widgetHead{gap:12px;margin-bottom:17px}
+#app .dashWidget .widgetHead h3{font-size:16px;font-weight:660;letter-spacing:-.03em}
+#app .widgetLink{color:var(--be-lime);font-size:11px;font-weight:650}
+#app .funnel{gap:14px;padding:9px 0}
+#app .frow{grid-template-columns:minmax(104px,1fr) minmax(70px,3.3fr) 24px;
+ gap:12px;align-items:center;font-size:11px;color:#c3cad0}
+#app .frow b{color:#e9f0ea;font-weight:650}
+#app .frow .bar{height:15px;border-radius:999px;background:linear-gradient(90deg,#6a9445,#c2ef75)}
+#app .attentionGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#app .attentionItem{padding:15px 13px;border-radius:15px;cursor:pointer;min-height:95px}
+#app .attentionItem:hover{background:#343b43!important}
+#app .attentionItem b{font-size:24px;font-weight:670;letter-spacing:-.04em;color:#f1f3f2}
+#app .attentionItem span{font-size:11px;line-height:1.4;color:#b8c1ca}
+#app .miniRow{padding:13px 0;border-top:1px solid rgba(242,248,254,.08)}
+#app .miniRowMain b{font-size:12px;color:#edf0ef;font-weight:600}
+#app .miniRowMain span{font-size:11px;line-height:1.4;color:#a0adb5}
+#app .miniRowRight{font-size:11px;color:#c7d0d6}
+#app .btn{border-radius:13px;font-size:12px;font-weight:630;min-height:40px;
+ padding:10px 14px;box-shadow:none;transition:transform .2s,background .2s,box-shadow .2s}
+#app .btn.primary,.btn.primary{
+ color:#10170b;background:linear-gradient(140deg,#d7fba3,#b9ea5c)!important;
+ border:1px solid rgba(228,255,174,.4);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 5px 17px rgba(150,215,65,.11);
+ font-weight:720;
+}
+#app .btn.primary:hover,.btn.primary:hover{background:#d1fa91!important;
+ box-shadow:0 5px 19px rgba(166,221,79,.20)}
+#app .btn.secondary,.btn.secondary{
+ color:#dee4e9;background:rgba(240,245,255,.065)!important;
+ border:1px solid rgba(242,247,254,.16)}
+#app .btn.secondary:hover{background:rgba(240,245,255,.125)!important}
+#app .input,.input{background:#252b34!important;color:#f0f2f3!important;
+ border:1px solid rgba(248,251,255,.16);border-radius:12px;min-height:41px}
+#app input::placeholder,#app textarea::placeholder{color:#89969f}
+#app select option,select option{background:#1c222a;color:#f3f4f5}
+#app .grid2,#app .cards{gap:16px}
+#app .grid2{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+#app .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
+#app table{color:#edf0f1}
+#app th{background:#262b35;color:#a3acb6;font-size:10px;padding:14px 13px;letter-spacing:.08em}
+#app td{border-top:1px solid rgba(238,245,255,.10);color:#e1e7e9;font-size:12px;padding:13px}
+#app tr:hover td{background:rgba(234,241,255,.035)}
+#app .tableWrap{overflow:auto}
+#app .pill{background:#3b414b;color:#dfe8e5;padding:5px 9px;font-size:10px}
+#app .pill.green{background:#2d463a;color:#b5e7bd}
+#app .pill.amber{background:#544331;color:#f0cd8a}
+#app .pill.red{background:#573b40;color:#f0abad}
+#app .pipeline .col{background:#202630!important;border:1px solid var(--be-border);border-radius:19px}
+#app .pipeline .deal{background:#2c323d!important;border-radius:14px;padding:13px;margin-bottom:10px}
+#app .pipeline .deal small{color:#a9b5bf}
+#app .pipeline select{background:#343b45;color:#edf0ef;border-color:rgba(255,255,255,.13)}
+#app .calendarStrip .dayCard{min-height:115px}
+#app .dayAppt{background:#344d3f;color:#e2f1e5}
+#app .templateCard.active{outline:2px solid var(--be-lime)}
+#app .templateTag,#app .flowChip{background:rgba(245,246,255,.06);border-color:rgba(242,245,255,.14);color:#d9dfe2}
+#app .setupProgress{background:#394047}
+#app .setupProgress>span{background:var(--be-lime)}
+#app .setupStep.done{background:#2b3c36!important}
+#app .waThread{background:#111821!important;border-color:rgba(235,242,252,.11)}
+#app .waMsg.inbound{background:#292f39!important;color:#ecf1f4}
+#app .waMsg.outbound{background:#355145!important;color:#eff8ef}
+#app .waConversation.active{background:#33493a!important}
+#app .waConversation span,#app .waMeta{color:#a9b7bb}
+#app .waContextPanel .waContextCard{box-shadow:none}
+#app .modalBack,.modalBack{background:rgba(3,8,13,.70);backdrop-filter:blur(11px)}
+#app .modal,.modal{background:#252c35;border:1px solid rgba(247,250,255,.18);
+ border-radius:22px;color:#f3f5f6;box-shadow:0 25px 90px rgba(0,0,0,.40)}
+#app .modalHead,.modalHead{border-bottom:1px solid rgba(242,248,252,.14)}
+#app .toast,.toast{background:#33433a;color:#f5f8f2;border-radius:14px}
+#app .toast.error,.toast.error{background:#67353a}
+#app .usageCard,#app .agentCard{background:#2c333c!important}
+#app .field label,.field label{font-size:11px;color:#c7d0d8}
+#app .muted,.muted{color:#aab4bc}
+#app .small,.small{font-size:12px}
+#app .attentionItem span,.be-command-foot{color:#c5cdd4}
+#app .head button{flex-shrink:0}
+#app .be-tools{display:flex;align-items:center;gap:9px;margin-left:auto;min-width:0}
+#app .be-tool{height:38px;min-width:38px;border-radius:13px;
+ background:rgba(255,255,255,.065);border:1px solid rgba(245,248,255,.16);
+ color:#f5f5f4;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+#app .be-tool:hover{background:rgba(255,255,255,.13)}
+#app .be-switch{padding:11px 12px;border-radius:12px;
+ background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
+ color:#d4dbdd;font-size:11px;font-weight:590}
+#app .be-switch:hover{background:rgba(255,255,255,.11)}
+.be-command-backdrop{background:rgba(3,8,14,.72)}
+.be-command-dialog{background:rgba(35,43,52,.96);border:1px solid rgba(248,250,255,.20);
+ border-radius:22px;box-shadow:0 30px 110px rgba(0,0,0,.52)}
+.be-command-dialog>input{color:#f3f5f4}
+.be-command-results{border-color:rgba(248,252,255,.13)}
+.be-command-results button{color:#f3f5f4}
+.be-command-results button:hover,.be-command-results button:focus-visible{background:rgba(226,242,211,.10)}
+.be-command-results small{color:#a9b4bf}
+.be-command-results p{color:#bcc5cd}
+.be-command-foot{color:#98a3ad}
+#app .be-nav-glyph{font-size:18px;line-height:1}
+#app #v-dashboard .be-ai-foot{
+ margin-top:16px;display:flex;align-items:center;gap:14px;padding:16px 20px;
+ border:1px solid rgba(237,243,252,.14);border-radius:19px;
+ background:linear-gradient(120deg,rgba(78,85,100,.34),rgba(33,39,48,.91));
+ color:#e6eced;
+}
+#app .be-ai-foot b{font-size:13px}
+#app .be-ai-foot p{font-size:12px;color:#aebac2;margin:3px 0 0}
+#app .be-ai-foot button{margin-left:auto;white-space:nowrap}
+.auth{background:radial-gradient(ellipse 64% 52% at 4% 20%,rgba(111,145,127,.30),transparent),
+ linear-gradient(135deg,#0b1015,#1b2630)!important}
+.auth .hero{color:#f4f8f2}
+.auth .hero h1{font:630 clamp(42px,5vw,72px)/1.06 -apple-system,BlinkMacSystemFont,Inter,system-ui,sans-serif;
+ letter-spacing:-.05em}
+.auth .hero p{color:#bdc9c6}
+.auth .panelAuth{background:rgba(23,29,37,.72)!important;color:#ecf1ee;border-left:1px solid rgba(255,255,255,.1)}
+.auth .authCard{background:rgba(51,58,70,.58);border:1px solid rgba(240,245,255,.18);
+ border-radius:28px;padding:clamp(20px,3.5vw,34px);box-shadow:0 24px 65px rgba(0,0,0,.22)}
+.auth .authCard h2{font:650 32px -apple-system,BlinkMacSystemFont,Inter,system-ui,sans-serif;
+ letter-spacing:-.04em;color:#f6f7f6}
+.auth .tabs{background:#29313b}.auth .tabs button{color:#bcc5cc}
+.auth .tabs .active{background:#47515a;color:#f5f7f5}
+.auth .authLinks a{color:#b6c8b2}
+.onboard{color:#e9f0e8}
+.onboard .onCard{background:#202831;border:1px solid rgba(250,251,255,.16);border-radius:24px}
+@media(min-width:1600px){
+ #app.shell{grid-template-columns:230px minmax(0,1fr)}
+ #app .content{max-width:1550px;justify-self:center}
+}
+@media(max-width:1160px){
+ #app.shell{grid-template-columns:198px minmax(0,1fr);column-gap:18px;padding:13px}
+ #app .top{top:13px}
+ #app .side{top:103px;height:calc(100dvh - 117px)}
+ .be-top-identity{min-width:170px}
+ #app .be-switch{display:none}
+ #app .dashboardWidgets{grid-template-columns:1fr 1fr}
+ #app .cards,#app .dashWidget:has(.kpi) .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #app .attentionGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:900px){
+ #app.shell{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:64px minmax(0,1fr);
+ padding:12px;gap:13px;min-height:100dvh}
+ #app .top{grid-column:1;grid-row:1;position:sticky;top:12px;height:64px;
+ border-radius:20px;padding:0 13px;gap:9px}
+ #app .side{position:fixed;left:0;top:0;bottom:0;transform:translateX(-110%);
+ width:min(292px,86vw);height:100dvh;min-height:0;margin:0;z-index:50;
+ border-radius:0 22px 22px 0;padding-top:20px;transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+ #app .side.open{transform:translateX(0)}
+ #app .content{grid-column:1;grid-row:2;padding:6px 4px 32px}
+ #app .top #mobileMenu{display:inline-flex;align-items:center;justify-content:center;
+ min-height:40px;min-width:40px;padding:0}
+ #app .be-workspace-picker{flex:1;min-width:0}
+ #app .top select#workspaceSelect{min-width:0}
+ #app .be-user-actions #userLabel{display:none}
+ #app .dashboardWidgets{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+}
+@media(max-width:700px){
+ #app .top .be-top-name{display:none}
+ .be-top-identity{min-width:auto;gap:0}
+ #app .top .be-top-mark{width:36px;height:36px;font-size:17px}
+ #app .be-tools{margin-left:0}
+ #app .be-workspace-picker label{display:none}
+ #app .top select#workspaceSelect{font-size:11px;height:37px}
+ #app .dashboardWidgets{grid-template-columns:1fr}
+ #app .dashWidget.wide,#app .dashWidget:has(.funnel),#app .dashWidget:has(.attentionGrid){grid-column:1}
+ #app .dashWidget:has(.kpi) .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #app .head{flex-wrap:wrap;align-items:flex-start}
+ #app .head h1#dashboardTitle{font-size:32px}
+ #app .grid2{grid-template-columns:1fr}
+ #app .waLayout{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+ #app.shell{padding:9px;grid-template-rows:59px minmax(0,1fr)}
+ #app .top{height:59px;top:9px;padding:0 9px;border-radius:16px;gap:6px}
+ #app .top .be-top-mark{width:31px;height:31px;font-size:14px;border-radius:9px}
+ #app .top #mobileMenu{min-width:33px;min-height:34px;font-size:13px}
+ #app .be-tools .be-switch{display:none}
+ #app .be-tool{width:34px;height:34px;min-width:34px;font-size:15px}
+ #app .top #signOut{font-size:0;min-width:30px;width:33px;height:34px;padding:0}
+ #app .top #signOut:before{content:"⇥";font-size:17px}
+ #app .be-workspace-picker{max-width:none}
+ #app .top select#workspaceSelect{font-size:10px;padding:0 19px 0 7px}
+ #app .content{padding:7px 3px 30px}
+ #app .dashWidget:has(.kpi) .cards{gap:10px}
+ #app .dashWidget:has(.kpi) .cards .kpi{padding:13px;min-height:106px}
+ #app .dashWidget:has(.kpi) .kpi b{font-size:21px;margin-top:12px}
+ #app .attentionGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #app .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #app #v-dashboard .be-ai-foot{flex-wrap:wrap;padding:14px}
+ #app #v-dashboard .be-ai-foot button{margin-left:0}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}
+ #app *,#app *:before,#app *:after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+@media(prefers-reduced-transparency:reduce){
+ #app .top,#app .side{background:#262b35!important;backdrop-filter:none!important}
+}
+@media(prefers-contrast:more){
+ #app .card,#app .side,#app .top{border-color:rgba(255,255,255,.55)!important}
+ #app .muted{color:#c7d0d4}
+}
+
+/* Command palette must honor the native hidden state. */
+.be-command-backdrop[hidden]{display:none!important}
+#app .be-nav-glyph svg{display:block;width:18px;height:18px;flex-shrink:0}
+
+/* Optional light appearance, preserving the same hierarchy and contrast. */
+body:not(.glass-dark){--bg:#e7eced;--card:#fff;--ink:#1a252d;--muted:#627078;
+ --line:rgba(27,47,54,.12);--be-panel:#fff;--be-raised:#f5f7f8;--be-elevated:#eff3f3;
+ --be-border:rgba(19,41,48,.15);color-scheme:light;
+ color:#1c282b;background:radial-gradient(ellipse at 77% 6%,rgba(207,222,221,.84),transparent 48%),
+ linear-gradient(145deg,#f3f5f5,#e9eef0)!important}
+body:not(.glass-dark):before{opacity:.1}
+body:not(.glass-dark) #app .top{
+ background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(234,240,243,.85));
+ border-color:rgba(255,255,255,.85);
+ box-shadow:inset 0 1px 0 #fff,0 12px 36px rgba(40,60,67,.11)}
+body:not(.glass-dark) .be-top-name strong{color:#1e2c2f}
+body:not(.glass-dark) .be-top-name small,
+body:not(.glass-dark) .be-workspace-picker label{color:#5f7078}
+body:not(.glass-dark) #app .top select#workspaceSelect{color:#233136;
+ background-color:rgba(255,255,255,.67);border-color:rgba(40,62,69,.18)}
+body:not(.glass-dark) #app .top #userLabel{color:#5e6d75}
+body:not(.glass-dark) #app .top #signOut{color:#293b42;
+ background:rgba(255,255,255,.55);border-color:rgba(28,46,53,.14)}
+body:not(.glass-dark) #app .side{background:linear-gradient(155deg,#24343b,#19262b)!important;
+ border-color:rgba(255,255,255,.12)}
+body:not(.glass-dark) #app .head h1{color:#202d31}
+body:not(.glass-dark) #app .head p{color:#61737c}
+body:not(.glass-dark) #app .card,
+body:not(.glass-dark) #app .panel,
+body:not(.glass-dark) #app .templateCard,
+body:not(.glass-dark) #app .attentionItem,
+body:not(.glass-dark) #app .timelineItem,
+body:not(.glass-dark) #app .dayCard,
+body:not(.glass-dark) #app .agentCard,
+body:not(.glass-dark) #app .waContextCard,
+body:not(.glass-dark) #app .usageCard,
+body:not(.glass-dark) #app .deal,
+body:not(.glass-dark) #app .templatePreview,
+body:not(.glass-dark) #app .waConversation{
+ background:linear-gradient(135deg,#fff,#f4f6f7)!important;
+ color:#253239;border:1px solid rgba(38,59,67,.13);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 8px 21px rgba(39,62,69,.055)}
+body:not(.glass-dark) #app .panel h3,
+body:not(.glass-dark) #app .dashWidget .widgetHead h3,
+body:not(.glass-dark) #app .miniRowMain b{color:#28343a}
+body:not(.glass-dark) #app .muted,
+body:not(.glass-dark) #app .miniRowMain span,
+body:not(.glass-dark) #app .miniRowRight{color:#617078}
+body:not(.glass-dark) #app .dashWidget:has(.kpi){background:transparent!important;border:0;box-shadow:none}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi{
+ background:linear-gradient(135deg,#fff,#f5f8f9)!important;
+ border-color:rgba(29,51,61,.14);box-shadow:0 8px 22px rgba(29,48,55,.05)}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi:first-child{
+ background:linear-gradient(145deg,#e4eed9,#f6f9f4)!important}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi:nth-child(2){
+ background:linear-gradient(145deg,#f5e9e8,#faf6f4)!important}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .cards .kpi:nth-child(3){
+ background:linear-gradient(145deg,#e6eff5,#f6f9fa)!important}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .kpi span{color:#54636b}
+body:not(.glass-dark) #app .dashWidget:has(.kpi) .kpi b{color:#203039}
+body:not(.glass-dark) #app .frow,
+body:not(.glass-dark) #app .frow b{color:#33474e}
+body:not(.glass-dark) #app .attentionItem b{color:#23313a}
+body:not(.glass-dark) #app .attentionItem span{color:#53656f}
+body:not(.glass-dark) #app .attentionItem:hover{background:#eff4f4!important}
+body:not(.glass-dark) #app .input,
+body:not(.glass-dark) .input{background:#fff!important;color:#1d2b31!important;
+ border-color:rgba(31,55,65,.17)}
+body:not(.glass-dark) #app .btn.secondary,
+body:not(.glass-dark) .btn.secondary{color:#25373d;
+ background:rgba(255,255,255,.75)!important;border-color:rgba(35,59,69,.18)}
+body:not(.glass-dark) #app th{background:#f1f5f5;color:#60717a}
+body:not(.glass-dark) #app td{color:#293b42;border-color:rgba(25,45,54,.1)}
+body:not(.glass-dark) #app tr:hover td{background:rgba(37,60,65,.03)}
+body:not(.glass-dark) #app .pipeline .col{background:#f3f6f6!important}
+body:not(.glass-dark) #app .pipeline .deal{background:#fff!important}
+body:not(.glass-dark) #app .miniRow{border-color:rgba(23,43,54,.12)}
+body:not(.glass-dark) #app .be-tool,
+body:not(.glass-dark) #app .be-switch{background:rgba(255,255,255,.62);
+ border-color:rgba(33,59,70,.15);color:#293a42}
+body:not(.glass-dark) #app .be-tool:hover,
+body:not(.glass-dark) #app .be-switch:hover{background:#fff}
+body:not(.glass-dark) #app .pill{background:#e6ecec;color:#3d5057}
+body:not(.glass-dark) #app .pill.green{background:#dcf2e3;color:#24663f}
+body:not(.glass-dark) #app .pill.amber{background:#f8edce;color:#775d29}
+body:not(.glass-dark) #app .pill.red{background:#f5dfe1;color:#8c3847}
+body:not(.glass-dark) .be-command-dialog{background:rgba(250,252,251,.98);
+ border-color:rgba(41,68,76,.17)}
+body:not(.glass-dark) .be-command-dialog>input,
+body:not(.glass-dark) .be-command-results button{color:#23343a}
+body:not(.glass-dark) .be-command-results small,
+body:not(.glass-dark) .be-command-foot{color:#64757e}
+body:not(.glass-dark) #app .waThread{background:#f2f6f5!important}
+body:not(.glass-dark) #app .waMsg.inbound{background:#fff!important;color:#23343b}
+body:not(.glass-dark) #app .waMsg.outbound{background:#def0e5!important;color:#224331}
+body:not(.glass-dark) #app .be-ai-foot{background:#f7faf8;color:#233a31;border-color:rgba(38,64,46,.13)}
+body:not(.glass-dark) #app .be-ai-foot p{color:#65766c}

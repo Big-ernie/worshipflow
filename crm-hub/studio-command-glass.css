@@ -1,0 +1,75 @@
+/* Big Ernie Studio Command companion to CRM Hub glass-command.css.
+   Install AFTER existing dashboard.css + studio-redesign.css.
+   Add be-glass-site class to <body>, never apply to the public website. */
+body.be-glass-site{
+ --be-ink:#203129;--be-muted:#69796d;--be-border:rgba(255,255,255,.71);
+ --be-surface:rgba(255,255,255,.61);--be-elevated:rgba(255,255,255,.82);
+ --be-shadow:0 18px 55px rgba(39,52,43,.12);--be-accent:#927a58;
+ background:radial-gradient(ellipse at 85% 13%,rgba(196,208,197,.7),transparent 34%),
+ radial-gradient(ellipse at 2% 78%,rgba(201,201,178,.53),transparent 43%),
+ linear-gradient(140deg,#e7e7df,#d8dfda 50%,#eee8dc)!important;
+ color:var(--be-ink)!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.be-glass-site .login-screen{background:radial-gradient(ellipse at 80% 20%,#3d574a,transparent 50%),#14241e!important}
+.be-glass-site .login-shell{background:rgba(255,255,255,.1)!important;backdrop-filter:blur(25px);
+ border:1px solid rgba(255,255,255,.27);border-radius:28px;box-shadow:0 25px 90px rgba(0,0,0,.22)}
+.be-glass-site .login-shell input{border-radius:12px}
+.be-glass-site .login-shell h1{letter-spacing:-.055em}
+.be-glass-site .shell#app{margin:16px;min-height:calc(100vh - 32px);border-radius:26px!important;
+ background:rgba(255,255,255,.22)!important;border:1px solid rgba(255,255,255,.7);
+ backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);overflow:hidden;
+ box-shadow:0 26px 95px rgba(30,46,36,.13)}
+.be-glass-site #app .sidebar,.be-glass-site #app .side,.be-glass-site #app .sidebar-panel{
+ background:linear-gradient(155deg,rgba(30,48,42,.95),rgba(32,53,46,.9))!important;
+ backdrop-filter:blur(24px);border-right:1px solid rgba(255,255,255,.16)}
+.be-glass-site #app .main{background:transparent!important}
+.be-glass-site #app .topbar,.be-glass-site #app .top-left,.be-glass-site #app .topbar-wrap{
+ backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.be-glass-site #app .page-head h1{font:500 clamp(30px,3vw,43px)/1.08 Georgia,serif;
+ letter-spacing:-.046em;color:var(--be-ink)}
+.be-glass-site #app .page-head em,.be-glass-site #app h2 em{font-style:normal;color:#927a58}
+.be-glass-site #app .eyebrow{letter-spacing:.2em;font-size:10px;color:#886f52}
+.be-glass-site #app .stat,.be-glass-site #app .quick,.be-glass-site #app .featured,
+.be-glass-site #app .notice,.be-glass-site #app .media-summary,
+.be-glass-site #app .field-intro,.be-glass-site #app .settings-card,
+.be-glass-site #app .search-preview,.be-glass-site #app .media-list,
+.be-glass-site #app .editor-bar,.be-glass-site #app .hint,
+.be-glass-site #app .caution,.be-glass-site #app .form-card{
+ background:var(--be-surface)!important;border:1px solid var(--be-border)!important;
+ border-radius:20px!important;box-shadow:var(--be-shadow)!important;
+ backdrop-filter:blur(20px) saturate(1.35);-webkit-backdrop-filter:blur(20px) saturate(1.35)}
+.be-glass-site #app .stats{gap:15px}
+.be-glass-site #app .stat{padding:clamp(16px,2vw,24px)}
+.be-glass-site #app .stat span{font-size:10px;letter-spacing:.12em;color:var(--be-muted)}
+.be-glass-site #app .stat strong{font-size:clamp(28px,3.5vw,43px);font-weight:650;
+ letter-spacing:-.06em;color:var(--be-ink)}
+.be-glass-site #app .stat small{color:var(--be-muted)}
+.be-glass-site #app .featured{background:linear-gradient(125deg,rgba(37,63,50,.93),rgba(43,77,64,.85))!important;
+ color:#f7f7f3!important}
+.be-glass-site #app .featured *{color:inherit}
+.be-glass-site #app .quick{background:var(--be-elevated)!important}
+.be-glass-site #app .action,.be-glass-site #app button{
+ border-radius:12px;transition:transform .2s,background .2s,box-shadow .2s,border-color .2s}
+.be-glass-site #app .action:active,.be-glass-site #app button:active{transform:scale(.98)}
+.be-glass-site #app input,.be-glass-site #app select,.be-glass-site #app textarea{
+ background:var(--be-elevated);color:var(--be-ink);border:1px solid rgba(99,115,103,.22);border-radius:12px}
+.be-glass-site #app input:focus-visible,.be-glass-site #app button:focus-visible,
+.be-glass-site #app a:focus-visible{outline:3px solid #b99b6b;outline-offset:3px}
+.be-glass-site #app .search-preview{overflow:hidden}
+.be-glass-site .glass-site-tools{display:flex;gap:8px;align-items:center}
+.be-glass-site .glass-site-tools button,.be-glass-site .glass-site-tools a{
+ display:inline-flex;align-items:center;justify-content:center;padding:10px 13px;
+ border:1px solid var(--be-border);border-radius:12px;background:var(--be-surface);
+ color:var(--be-ink);font-size:12px;font-weight:650;text-decoration:none}
+.be-glass-site.glass-site-dark{
+ --be-ink:#e7eee8;--be-muted:#acc0b0;--be-border:rgba(224,235,219,.14);
+ --be-surface:rgba(34,53,44,.8);--be-elevated:rgba(39,60,49,.92);
+ --be-shadow:0 17px 50px rgba(0,0,0,.24);
+ background:radial-gradient(ellipse at 79% 20%,#2a4538,transparent 45%),#111d18!important}
+.be-glass-site.glass-site-dark #app.shell{background:rgba(18,31,24,.6)!important;border-color:var(--be-border)}
+.be-glass-site.glass-site-dark #app .featured{background:linear-gradient(125deg,#334c3d,#1d3329)!important}
+@media(max-width:900px){.be-glass-site .shell#app{margin:0;border-radius:0!important;min-height:100vh}
+.be-glass-site #app .stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.be-glass-site #app .stat{padding:15px}
+.be-glass-site #app .page-head h1{font-size:30px}}
+@media(prefers-reduced-motion:reduce){.be-glass-site *, .be-glass-site *:before,
+.be-glass-site *:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
